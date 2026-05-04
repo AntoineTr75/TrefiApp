@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Materia Prima</title>
+  <script src="data.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --negro: #0a0a0a;
+      --gris: #1e1e1e;
+      --gris2: #2a2a2a;
+      --gris3: #333333;
+      --naranja: #e8a020;
+      --blanco: #ffffff;
+      --texto-sec: rgba(255,255,255,0.55);
+      --radio: 10px;
+      --sp1: 8px;
+      --sp2: 16px;
+      --sp3: 24px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--negro);
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--gris);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 480px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .header {
+      background: var(--negro);
+      border-bottom: 2px solid var(--naranja);
+      padding: var(--sp2) var(--sp3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header a {
+      color: var(--texto-sec);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .header a:hover { color: var(--naranja); }
+
+    .header h2 {
+      color: var(--blanco);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .form-body { padding: var(--sp3); }
+
+    /* Secciones */
+    .seccion {
+      margin-bottom: var(--sp3);
+    }
+
+    .seccion-title {
+      color: var(--naranja);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: var(--sp2);
+      padding-bottom: var(--sp1);
+      border-bottom: 1px solid #333;
+    }
+
+    /* Fields */
+    .field { margin-bottom: var(--sp2); }
+
+    .field label {
+      display: block;
+      color: var(--texto-sec);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .field input[type="text"],
+    .field input[type="number"],
+    .field textarea {
+      width: 100%;
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 12px var(--sp2);
+      font-size: 15px;
+      color: var(--blanco);
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--naranja);
+    }
+
+    .field textarea { height: 80px; resize: none; }
+
+    .row { display: flex; gap: var(--sp2); }
+    .row .field { flex: 1; }
+
+    /* Radio buttons */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp1);
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 10px var(--sp2);
+      cursor: pointer;
+      color: var(--blanco);
+      font-size: 14px;
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: 0;
+      transition: all 0.15s;
+    }
+
+    .radio-group label:hover { border-color: var(--naranja); }
+
+    .radio-group label.selected {
+      border-color: var(--naranja);
+      background: rgba(232,160,32,0.12);
+      color: var(--naranja);
+    }
+
+    .radio-group input[type="radio"] { display: none; }
+
+    /* Toggle */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--sp2);
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 12px var(--sp2);
+    }
+
+    .toggle-label {
+      flex: 1;
+      color: var(--blanco);
+      font-size: 14px;
+    }
+
+    .toggle-label span {
+      color: var(--naranja);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input { display: none; }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: #444;
+      border-radius: 28px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .toggle-slider:before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 3px;
+      top: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .toggle-switch input:checked + .toggle-slider { background: var(--naranja); }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
+
+    /* Tolerancias */
+    .tol-box {
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: var(--sp2);
+      display: flex;
+      gap: var(--sp2);
+    }
+
+    .tol-col { flex: 1; }
+
+    .tol-col h4 {
+      color: var(--naranja);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: var(--sp1);
+    }
+
+    .tol-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--texto-sec);
+      padding: 3px 0;
+    }
+
+    .tol-row span:last-child { color: var(--blanco); font-weight: 600; }
+
+    /* Mediciones */
+    .med-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp1);
+    }
+
+    .med-col-header {
+      color: var(--naranja);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-align: center;
+      padding-bottom: var(--sp1);
+    }
+
+    .med-input {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .med-input span {
+      color: var(--texto-sec);
+      font-size: 13px;
+      min-width: 22px;
+      text-align: right;
+    }
+
+    .med-input input {
+      flex: 1;
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 14px;
+      color: var(--blanco);
+      transition: border-color 0.2s;
+    }
+
+    .med-input input:focus {
+      outline: none;
+      border-color: var(--naranja);
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp2);
+      margin-bottom: var(--sp2);
+    }
+
+    .stats-box {
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: var(--sp2);
+    }
+
+    .stats-box h4 {
+      color: var(--naranja);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: var(--sp1);
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 3px 0;
+      border-bottom: 1px solid #333;
+    }
+
+    .stat-row:last-child { border-bottom: none; }
+    .stat-row .slabel { color: var(--texto-sec); }
+    .stat-row .sval { color: var(--blanco); font-weight: 600; }
+
+    /* Adjuntos */
+    .file-input-wrap {
+      background: var(--gris2);
+      border: 1px dashed #3a3a3a;
+      border-radius: var(--radio);
+      padding: var(--sp2);
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .file-input-wrap:hover { border-color: var(--naranja); }
+    .file-input-wrap p { color: var(--texto-sec); font-size: 13px; margin-top: 6px; }
+    .file-input-wrap input { display: none; }
+
+    /* Botón */
+    .btn-guardar {
+      width: 100%;
+      background: var(--naranja);
+      color: var(--negro);
+      border: none;
+      border-radius: var(--radio);
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: var(--sp1);
+    }
+
+    .btn-guardar:hover { background: #f0b030; transform: translateY(-1px); }
+    .btn-guardar:active { transform: translateY(0); }
+
+    .fecha-text { color: var(--blanco); font-size: 15px; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <a href="index.html"><i data-lucide="x"></i></a>
+    <h2>Materia Prima</h2>
+    <span style="width:24px"></span>
+  </div>
+
+  <div class="form-body">
+
+    <!-- Info General -->
+    <div class="seccion">
+      <div class="seccion-title">Información General</div>
+
+      <div class="field">
+        <label>Fecha de Registro</label>
+        <div class="fecha-text" id="fechaTexto"></div>
+      </div>
+
+      <div class="field">
+        <label>Responsable</label>
+        <input type="text" id="responsable" placeholder="Nombre del responsable">
+      </div>
+
+      <div class="field">
+        <label>Proveedor</label>
+        <div class="radio-group" id="proveedorGroup"></div>
+      </div>
+
+      <div class="field">
+        <label>Nombre del Producto</label>
+        <input type="text" id="nombreProducto">
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>N° Fac./Guía</label>
+          <input type="text" id="facGuia">
+        </div>
+        <div class="field">
+          <label>N° OC</label>
+          <input type="number" id="nOC" value="0">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Cantidad</label>
+        <input type="number" id="cantidad">
+      </div>
+    </div>
+
+    <!-- Especificaciones -->
+    <div class="seccion">
+      <div class="seccion-title">Especificaciones</div>
+
+      <div class="field">
+        <div class="toggle-wrap">
+          <div class="toggle-label">Tipo: <span id="labelTipo">Tubo</span></div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleTipo">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Diámetro</label>
+        <div class="radio-group" id="diametroGroup"></div>
+      </div>
+
+      <div class="field">
+        <label>Espesor</label>
+        <div class="radio-group" id="espesorGroup"></div>
+      </div>
+
+      <div class="field">
+        <label>Largo</label>
+        <input type="text" id="largo">
+      </div>
+
+      <div class="tol-box">
+        <div class="tol-col">
+          <h4>Tolerancia Diámetro</h4>
+          <div class="tol-row"><span>Máximo [mm]</span><span id="tolDiamMax">-</span></div>
+          <div class="tol-row"><span>Mínimo [mm]</span><span id="tolDiamMin">-</span></div>
+        </div>
+        <div class="tol-col">
+          <h4>Tolerancia Espesor</h4>
+          <div class="tol-row"><span>Máximo [mm]</span><span id="tolEspMax">-</span></div>
+          <div class="tol-row"><span>Mínimo [mm]</span><span id="tolEspMin">-</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mediciones -->
+    <div class="seccion">
+      <div class="seccion-title">Mediciones de Materia Prima</div>
+
+      <div class="med-grid">
+        <div class="med-col-header">Diámetros</div>
+        <div class="med-col-header">Espesores</div>
+        <div id="medDiams"></div>
+        <div id="medEsps"></div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stats-box">
+          <h4>Diámetros</h4>
+          <div class="stat-row"><span class="slabel">Promedio</span><span class="sval" id="statDiamProm">-</span></div>
+          <div class="stat-row"><span class="slabel">Desv. Est.</span><span class="sval" id="statDiamDev">-</span></div>
+          <div class="stat-row"><span class="slabel">Mínimo</span><span class="sval" id="statDiamMin">-</span></div>
+          <div class="stat-row"><span class="slabel">Máximo</span><span class="sval" id="statDiamMax">-</span></div>
+        </div>
+        <div class="stats-box">
+          <h4>Espesores</h4>
+          <div class="stat-row"><span class="slabel">Promedio</span><span class="sval" id="statEspProm">-</span></div>
+          <div class="stat-row"><span class="slabel">Desv. Est.</span><span class="sval" id="statEspDev">-</span></div>
+          <div class="stat-row"><span class="slabel">Mínimo</span><span class="sval" id="statEspMin">-</span></div>
+          <div class="stat-row"><span class="slabel">Máximo</span><span class="sval" id="statEspMax">-</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Largo Medido</label>
+        <input type="number" id="largoMedido" step="0.01">
+      </div>
+    </div>
+
+    <!-- Cierre -->
+    <div class="seccion">
+      <div class="seccion-title">Cierre</div>
+
+      <div class="field">
+        <label>Observaciones</label>
+        <textarea id="observaciones" placeholder="Ingresa observaciones..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Datos Adjuntos</label>
+        <div class="file-input-wrap" onclick="document.getElementById('adjuntos').click()">
+          <i data-lucide="paperclip" style="color:#e8a020; width:24px; height:24px;"></i>
+          <p id="adjuntosLabel">Toca para adjuntar foto o archivo</p>
+          <input type="file" id="adjuntos" multiple accept="image/*,.pdf,.xlsx,.docx"
+            onchange="mostrarAdjuntos()">
+        </div>
+      </div>
+
+      <button class="btn-guardar" onclick="guardarRegistro()">Guardar Registro</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Fecha
+  const ahora = new Date();
+  document.getElementById("fechaTexto").textContent =
+    ahora.toLocaleDateString("es-CL") + " " +
+    ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"});
+
+  // Proveedores
+  PROVEEDORES.forEach(p => {
+    const label = document.createElement("label");
+    label.innerHTML = `<input type="radio" name="proveedor" value="${p}"> ${p}`;
+    label.querySelector("input").addEventListener("change", () => {
+      document.querySelectorAll("#proveedorGroup label").forEach(l => l.classList.remove("selected"));
+      label.classList.add("selected");
+    });
+    document.getElementById("proveedorGroup").appendChild(label);
+  });
+
+  // Toggle tipo
+  let tipoActual = "tubo";
+  document.getElementById("toggleTipo").addEventListener("change", function() {
+    tipoActual = this.checked ? "cañeria" : "tubo";
+    document.getElementById("labelTipo").textContent = this.checked ? "Cañería" : "Tubo";
+    renderDiametros();
+    renderEspesores();
+    limpiarTolerancia();
+  });
+
+  function renderRadioGroup(containerId, items, name, onChange) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+    items.forEach(item => {
+      const label = document.createElement("label");
+      label.innerHTML = `<input type="radio" name="${name}" value="${item}"> ${item}`;
+      label.querySelector("input").addEventListener("change", () => {
+        container.querySelectorAll("label").forEach(l => l.classList.remove("selected"));
+        label.classList.add("selected");
+        onChange();
+      });
+      container.appendChild(label);
+    });
+  }
+
+  function renderDiametros() {
+    const items = Object.keys(TOLERANCIAS[tipoActual].diametros);
+    renderRadioGroup("diametroGroup", items, "diametro", actualizarTolerancia);
+  }
+
+  function renderEspesores() {
+    const items = Object.keys(TOLERANCIAS[tipoActual].espesores);
+    renderRadioGroup("espesorGroup", items, "espesor", actualizarTolerancia);
+  }
+
+  function limpiarTolerancia() {
+    ["tolDiamMax","tolDiamMin","tolEspMax","tolEspMin"].forEach(id => {
+      document.getElementById(id).textContent = "-";
+    });
+  }
+
+  function actualizarTolerancia() {
+    const diam = document.querySelector('input[name="diametro"]:checked')?.value;
+    const esp  = document.querySelector('input[name="espesor"]:checked')?.value;
+    const tipo = TOLERANCIAS[tipoActual];
+    if (diam && tipo.diametros[diam]) {
+      document.getElementById("tolDiamMax").textContent = tipo.diametros[diam].max;
+      document.getElementById("tolDiamMin").textContent = tipo.diametros[diam].min;
+    }
+    if (esp && tipo.espesores[esp]) {
+      document.getElementById("tolEspMax").textContent = tipo.espesores[esp].max;
+      document.getElementById("tolEspMin").textContent = tipo.espesores[esp].min;
+    }
+  }
+
+  // Mediciones
+  for (let i = 1; i <= 10; i++) {
+    document.getElementById("medDiams").innerHTML +=
+      `<div class="med-input"><span>${i}.-</span><input type="number" id="diam${i}" step="0.01" oninput="calcStats()"></div>`;
+    document.getElementById("medEsps").innerHTML +=
+      `<div class="med-input"><span>${i}.-</span><input type="number" id="esp${i}" step="0.01" oninput="calcStats()"></div>`;
+  }
+
+  function calcStats() {
+    calcGrupo("diam", "statDiam");
+    calcGrupo("esp",  "statEsp");
+  }
+
+  function calcGrupo(prefix, statPrefix) {
+    const vals = [];
+    for (let i = 1; i <= 10; i++) {
+      const v = parseFloat(document.getElementById(prefix + i).value);
+      if (!isNaN(v)) vals.push(v);
+    }
+    if (vals.length === 0) return;
+    const prom = vals.reduce((a,b) => a+b, 0) / vals.length;
+    const dev  = Math.sqrt(vals.reduce((a,b) => a + Math.pow(b-prom,2), 0) / vals.length);
+    document.getElementById(statPrefix + "Prom").textContent = prom.toFixed(3);
+    document.getElementById(statPrefix + "Dev").textContent  = dev.toFixed(3);
+    document.getElementById(statPrefix + "Min").textContent  = Math.min(...vals).toFixed(3);
+    document.getElementById(statPrefix + "Max").textContent  = Math.max(...vals).toFixed(3);
+  }
+
+  // Adjuntos
+  function mostrarAdjuntos() {
+    const files = document.getElementById("adjuntos").files;
+    document.getElementById("adjuntosLabel").textContent =
+      files.length > 0 ? `${files.length} archivo(s) seleccionado(s)` : "Toca para adjuntar foto o archivo";
+  }
+
+  // Guardar
+  function guardarRegistro() {
+    const registro = {
+      fecha:         document.getElementById("fechaTexto").textContent,
+      responsable:   document.getElementById("responsable").value,
+      proveedor:     document.querySelector('input[name="proveedor"]:checked')?.value || "",
+      producto:      document.getElementById("nombreProducto").value,
+      facGuia:       document.getElementById("facGuia").value,
+      nOC:           document.getElementById("nOC").value,
+      cantidad:      document.getElementById("cantidad").value,
+      tipo:          tipoActual,
+      diametro:      document.querySelector('input[name="diametro"]:checked')?.value || "",
+      espesor:       document.querySelector('input[name="espesor"]:checked')?.value || "",
+      largo:         document.getElementById("largo").value,
+      largoMedido:   document.getElementById("largoMedido").value,
+      observaciones: document.getElementById("observaciones").value,
+      medDiams: [],
+      medEsps:  [],
+      stats: {
+        diam: {
+          prom: document.getElementById("statDiamProm").textContent,
+          dev:  document.getElementById("statDiamDev").textContent,
+          min:  document.getElementById("statDiamMin").textContent,
+          max:  document.getElementById("statDiamMax").textContent,
+        },
+        esp: {
+          prom: document.getElementById("statEspProm").textContent,
+          dev:  document.getElementById("statEspDev").textContent,
+          min:  document.getElementById("statEspMin").textContent,
+          max:  document.getElementById("statEspMax").textContent,
+        }
+      }
+    };
+
+    for (let i = 1; i <= 10; i++) {
+      registro.medDiams.push(document.getElementById("diam"+i).value || "");
+      registro.medEsps.push(document.getElementById("esp"+i).value  || "");
+    }
+
+    const registros = JSON.parse(localStorage.getItem("trefiapp_mp") || "[]");
+    registros.push(registro);
+    localStorage.setItem("trefiapp_mp", JSON.stringify(registros));
+
+    alert("Registro guardado correctamente.");
+    window.location.href = "index.html";
+  }
+
+  // Init
+  renderDiametros();
+  renderEspesores();
+  lucide.createIcons();
+</script>
+<script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
+</body>
+</html>

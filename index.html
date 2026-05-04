@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrefiApp</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="export.js"></script>
+  <style>
+    :root {
+      --negro: #0a0a0a;
+      --gris: #1e1e1e;
+      --gris2: #2a2a2a;
+      --naranja: #e8a020;
+      --naranja-hover: #f0b030;
+      --blanco: #ffffff;
+      --texto-secundario: rgba(255,255,255,0.55);
+      --sombra: 0 4px 20px rgba(0,0,0,0.4);
+      --radio: 14px;
+      --sp2: 16px;
+      --sp3: 24px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--negro);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp3);
+    }
+
+    .app-card {
+      background: var(--gris);
+      border-radius: var(--radio);
+      box-shadow: var(--sombra);
+      width: 100%;
+      max-width: 400px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .app-header {
+      background: var(--negro);
+      padding: var(--sp3);
+      text-align: center;
+      border-bottom: 2px solid var(--naranja);
+    }
+
+    .app-header h1 {
+      color: var(--blanco);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .app-header p {
+      color: var(--naranja);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .menu {
+      padding: var(--sp3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp2);
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp2);
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: 10px;
+      padding: var(--sp2);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--blanco);
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      width: 100%;
+      text-align: left;
+    }
+
+    .menu-item:hover {
+      border-color: var(--naranja);
+      box-shadow: 0 0 0 1px var(--naranja);
+      transform: translateY(-2px);
+    }
+
+    .menu-item .icon-wrap {
+      background: var(--naranja);
+      border-radius: 8px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .menu-item .icon-wrap svg {
+      color: var(--negro);
+      width: 22px;
+      height: 22px;
+    }
+
+    .menu-item span.label { flex: 1; }
+
+    .menu-item .chevron svg {
+      color: #555;
+      width: 18px;
+      height: 18px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: var(--sp2);
+      color: #444;
+      font-size: 12px;
+      border-top: 1px solid #2a2a2a;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-card">
+    <div class="app-header">
+      <h1>TrefiApp</h1>
+      <p>Control de Calidad</p>
+    </div>
+
+    <div class="menu">
+      <a class="menu-item" href="materia-prima.html">
+        <div class="icon-wrap">
+          <i data-lucide="truck"></i>
+        </div>
+        <span class="label">Registro de Materia Prima</span>
+        <span class="chevron"><i data-lucide="chevron-right"></i></span>
+      </a>
+
+      <button class="menu-item" onclick="exportarExcel()">
+        <div class="icon-wrap">
+          <i data-lucide="download"></i>
+        </div>
+        <span class="label">Exportar a Excel</span>
+        <span class="chevron"><i data-lucide="chevron-right"></i></span>
+      </button>
+    </div>
+
+    <div class="footer">TREFIMET · TrefiApp v1.0</div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
