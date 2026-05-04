@@ -8,6 +8,7 @@
   <title>Materia Prima</title>
   <script src="data.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
   <style>
     :root {
       --negro: #0a0a0a;
@@ -69,10 +70,7 @@
 
     .form-body { padding: var(--sp3); }
 
-    /* Secciones */
-    .seccion {
-      margin-bottom: var(--sp3);
-    }
+    .seccion { margin-bottom: var(--sp3); }
 
     .seccion-title {
       color: var(--naranja);
@@ -85,7 +83,6 @@
       border-bottom: 1px solid #333;
     }
 
-    /* Fields */
     .field { margin-bottom: var(--sp2); }
 
     .field label {
@@ -122,7 +119,6 @@
     .row { display: flex; gap: var(--sp2); }
     .row .field { flex: 1; }
 
-    /* Radio buttons */
     .radio-group {
       display: flex;
       flex-direction: column;
@@ -156,7 +152,6 @@
 
     .radio-group input[type="radio"] { display: none; }
 
-    /* Toggle */
     .toggle-wrap {
       display: flex;
       align-items: center;
@@ -212,7 +207,6 @@
     .toggle-switch input:checked + .toggle-slider { background: var(--naranja); }
     .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
 
-    /* Tolerancias */
     .tol-box {
       background: var(--gris2);
       border: 1px solid #3a3a3a;
@@ -243,7 +237,6 @@
 
     .tol-row span:last-child { color: var(--blanco); font-weight: 600; }
 
-    /* Mediciones */
     .med-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -290,7 +283,6 @@
       border-color: var(--naranja);
     }
 
-    /* Stats */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -326,7 +318,6 @@
     .stat-row .slabel { color: var(--texto-sec); }
     .stat-row .sval { color: var(--blanco); font-weight: 600; }
 
-    /* Adjuntos */
     .file-input-wrap {
       background: var(--gris2);
       border: 1px dashed #3a3a3a;
@@ -341,7 +332,6 @@
     .file-input-wrap p { color: var(--texto-sec); font-size: 13px; margin-top: 6px; }
     .file-input-wrap input { display: none; }
 
-    /* Botón */
     .btn-guardar {
       width: 100%;
       background: var(--naranja);
@@ -363,7 +353,6 @@
 
     .fecha-text { color: var(--blanco); font-size: 15px; }
   </style>
-<script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
 </head>
 <body>
 <div class="card">
@@ -375,7 +364,6 @@
 
   <div class="form-body">
 
-    <!-- Info General -->
     <div class="seccion">
       <div class="seccion-title">Información General</div>
 
@@ -416,7 +404,6 @@
       </div>
     </div>
 
-    <!-- Especificaciones -->
     <div class="seccion">
       <div class="seccion-title">Especificaciones</div>
 
@@ -459,7 +446,6 @@
       </div>
     </div>
 
-    <!-- Mediciones -->
     <div class="seccion">
       <div class="seccion-title">Mediciones de Materia Prima</div>
 
@@ -493,7 +479,6 @@
       </div>
     </div>
 
-    <!-- Cierre -->
     <div class="seccion">
       <div class="seccion-title">Cierre</div>
 
@@ -519,13 +504,11 @@
 </div>
 
 <script>
-  // Fecha
   const ahora = new Date();
   document.getElementById("fechaTexto").textContent =
     ahora.toLocaleDateString("es-CL") + " " +
     ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"});
 
-  // Proveedores
   PROVEEDORES.forEach(p => {
     const label = document.createElement("label");
     label.innerHTML = `<input type="radio" name="proveedor" value="${p}"> ${p}`;
@@ -536,7 +519,6 @@
     document.getElementById("proveedorGroup").appendChild(label);
   });
 
-  // Toggle tipo
   let tipoActual = "tubo";
   document.getElementById("toggleTipo").addEventListener("change", function() {
     tipoActual = this.checked ? "cañeria" : "tubo";
@@ -562,13 +544,11 @@
   }
 
   function renderDiametros() {
-    const items = Object.keys(TOLERANCIAS[tipoActual].diametros);
-    renderRadioGroup("diametroGroup", items, "diametro", actualizarTolerancia);
+    renderRadioGroup("diametroGroup", Object.keys(TOLERANCIAS[tipoActual].diametros), "diametro", actualizarTolerancia);
   }
 
   function renderEspesores() {
-    const items = Object.keys(TOLERANCIAS[tipoActual].espesores);
-    renderRadioGroup("espesorGroup", items, "espesor", actualizarTolerancia);
+    renderRadioGroup("espesorGroup", Object.keys(TOLERANCIAS[tipoActual].espesores), "espesor", actualizarTolerancia);
   }
 
   function limpiarTolerancia() {
@@ -591,7 +571,6 @@
     }
   }
 
-  // Mediciones
   for (let i = 1; i <= 10; i++) {
     document.getElementById("medDiams").innerHTML +=
       `<div class="med-input"><span>${i}.-</span><input type="number" id="diam${i}" step="0.01" oninput="calcStats()"></div>`;
@@ -619,96 +598,68 @@
     document.getElementById(statPrefix + "Max").textContent  = Math.max(...vals).toFixed(3);
   }
 
-  // Adjuntos
   function mostrarAdjuntos() {
     const files = document.getElementById("adjuntos").files;
     document.getElementById("adjuntosLabel").textContent =
       files.length > 0 ? `${files.length} archivo(s) seleccionado(s)` : "Toca para adjuntar foto o archivo";
   }
 
-  // Guardar
   const msalConfig = {
-  auth: {
-    clientId: "8deccadf-6d77-494e-8a48-b672aa25f518",
-    authority: "https://login.microsoftonline.com/3c56ae46-806e-488d-9efb-c7d4ff4d7833",
-    redirectUri: "https://antoinetr75.github.io/TrefiApp/"
-  }
-};
-
-const msalInstance = new msal.PublicClientApplication(msalConfig);
-
-async function guardarRegistro() {
-  const ahora = new Date();
-  const fecha = ahora.toISOString().slice(0,10);
-  const hora = ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"});
-
-  const datos = {
-    "__metadata": { "type": "SP.Data.TrefiApp_x005f_CalidadV1ListItem" },
-    "Title": fecha,
-    "fecha": fecha,
-    "hora": hora,
-    "responsable": document.getElementById("responsable").value,
-    "proveedor": document.querySelector('input[name="proveedor"]:checked')?.value || "",
-    "nombre_producto": document.getElementById("nombreProducto").value,
-    "tipo": tipoActual,
-    "diametro": document.querySelector('input[name="diametro"]:checked')?.value || "",
-    "espesor": document.querySelector('input[name="espesor"]:checked')?.value || "",
-    "largo": document.getElementById("largo").value,
-    "cantidad": parseFloat(document.getElementById("cantidad").value) || 0,
-    "fac_guia": document.getElementById("facGuia").value,
-    "n_oc": document.getElementById("nOC").value,
-    "tol_diam_max": parseFloat(document.getElementById("tolDiamMax").textContent) || 0,
-    "tol_diam_min": parseFloat(document.getElementById("tolDiamMin").textContent) || 0,
-    "tol_esp_max": parseFloat(document.getElementById("tolEspMax").textContent) || 0,
-    "tol_esp_min": parseFloat(document.getElementById("tolEspMin").textContent) || 0,
-    "largo_medido": parseFloat(document.getElementById("largoMedido").value) || 0,
-    "observaciones": document.getElementById("observaciones").value,
+    auth: {
+      clientId: "8deccadf-6d77-494e-8a48-b672aa25f518",
+      authority: "https://login.microsoftonline.com/3c56ae46-806e-488d-9efb-c7d4ff4d7833",
+      redirectUri: "https://antoinetr75.github.io/TrefiApp/materia-prima.html"
+    },
+    cache: { cacheLocation: "localStorage" }
   };
 
-  for (let i = 1; i <= 10; i++) {
-    datos[`diam_${i}`] = parseFloat(document.getElementById("diam"+i).value) || 0;
-    datos[`esp_${i}`]  = parseFloat(document.getElementById("esp"+i).value)  || 0;
+  const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+  function recopilarDatos() {
+    const ahora = new Date();
+    const datos = {
+      "__metadata": { "type": "SP.Data.TrefiApp_x005f_CalidadV1ListItem" },
+      "Title": ahora.toISOString().slice(0,10),
+      "fecha": ahora.toISOString().slice(0,10),
+      "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
+      "responsable": document.getElementById("responsable").value,
+      "proveedor": document.querySelector('input[name="proveedor"]:checked')?.value || "",
+      "nombre_producto": document.getElementById("nombreProducto").value,
+      "tipo": tipoActual,
+      "diametro": document.querySelector('input[name="diametro"]:checked')?.value || "",
+      "espesor": document.querySelector('input[name="espesor"]:checked')?.value || "",
+      "largo": document.getElementById("largo").value,
+      "cantidad": parseFloat(document.getElementById("cantidad").value) || 0,
+      "fac_guia": document.getElementById("facGuia").value,
+      "n_oc": document.getElementById("nOC").value,
+      "tol_diam_max": parseFloat(document.getElementById("tolDiamMax").textContent) || 0,
+      "tol_diam_min": parseFloat(document.getElementById("tolDiamMin").textContent) || 0,
+      "tol_esp_max": parseFloat(document.getElementById("tolEspMax").textContent) || 0,
+      "tol_esp_min": parseFloat(document.getElementById("tolEspMin").textContent) || 0,
+      "largo_medido": parseFloat(document.getElementById("largoMedido").value) || 0,
+      "observaciones": document.getElementById("observaciones").value,
+    };
+    for (let i = 1; i <= 10; i++) {
+      datos[`diam_${i}`] = parseFloat(document.getElementById("diam"+i).value) || 0;
+      datos[`esp_${i}`]  = parseFloat(document.getElementById("esp"+i).value)  || 0;
+    }
+    datos["diam_promedio"] = parseFloat(document.getElementById("statDiamProm").textContent) || 0;
+    datos["diam_desv_est"] = parseFloat(document.getElementById("statDiamDev").textContent)  || 0;
+    datos["diam_min"]      = parseFloat(document.getElementById("statDiamMin").textContent)  || 0;
+    datos["diam_max"]      = parseFloat(document.getElementById("statDiamMax").textContent)  || 0;
+    datos["esp_promedio"]  = parseFloat(document.getElementById("statEspProm").textContent)  || 0;
+    datos["esp_desv_est"]  = parseFloat(document.getElementById("statEspDev").textContent)   || 0;
+    datos["esp_min"]       = parseFloat(document.getElementById("statEspMin").textContent)   || 0;
+    datos["esp_max"]       = parseFloat(document.getElementById("statEspMax").textContent)   || 0;
+    return datos;
   }
 
-  datos["diam_promedio"] = parseFloat(document.getElementById("statDiamProm").textContent) || 0;
-  datos["diam_desv_est"] = parseFloat(document.getElementById("statDiamDev").textContent)  || 0;
-  datos["diam_min"]      = parseFloat(document.getElementById("statDiamMin").textContent)  || 0;
-  datos["diam_max"]      = parseFloat(document.getElementById("statDiamMax").textContent)  || 0;
-  datos["esp_promedio"]  = parseFloat(document.getElementById("statEspProm").textContent)  || 0;
-  datos["esp_desv_est"]  = parseFloat(document.getElementById("statEspDev").textContent)   || 0;
-  datos["esp_min"]       = parseFloat(document.getElementById("statEspMin").textContent)   || 0;
-  datos["esp_max"]       = parseFloat(document.getElementById("statEspMax").textContent)   || 0;
-
-  // Guardar local siempre
-  const registros = JSON.parse(localStorage.getItem("trefiapp_mp") || "[]");
-  registros.push(datos);
-  localStorage.setItem("trefiapp_mp", JSON.stringify(registros));
-
-  // Autenticar y enviar a SharePoint
-  try {
-    await msalInstance.initialize();
-    
-    let tokenResp;
-    try {
-      tokenResp = await msalInstance.acquireTokenSilent({
-        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"],
-        account: msalInstance.getAllAccounts()[0]
-      });
-    } catch(e) {
-      tokenResp = await msalInstance.acquireTokenPopup({
-        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"]
-      });
-    }
-
-    const token = tokenResp.accessToken;
-
+  async function enviarASharePoint(token, datos) {
     const contextResp = await fetch(
       "https://trefimet.sharepoint.com/sites/mejora/_api/contextinfo",
-      { method: "POST", headers: { "Accept": "application/json;odata=verbose", "Authorization": `Bearer ${token}` } }
+      { method: "POST", headers: { "Accept": "application/json;odata=verbose", "Authorization": `Bearer ${token}` }}
     );
-    const contextData = await contextResp.json();
-    const digest = contextData.d.GetContextWebInformation.FormDigestValue;
-
+    const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
     await fetch(
       "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_CalidadV1')/items",
       {
@@ -722,24 +673,66 @@ async function guardarRegistro() {
         body: JSON.stringify(datos)
       }
     );
-
-    alert("Registro guardado y enviado a SharePoint.");
-  } catch(e) {
-    console.error(e);
-    alert("Registro guardado localmente. Se enviará cuando haya conexión.");
   }
 
-  window.location.href = "index.html";
-}
-  // Init
+  async function guardarRegistro() {
+    const datos = recopilarDatos();
+    const registros = JSON.parse(localStorage.getItem("trefiapp_mp") || "[]");
+    registros.push(datos);
+    localStorage.setItem("trefiapp_mp", JSON.stringify(registros));
+    sessionStorage.setItem("pendingData", JSON.stringify(datos));
+
+    await msalInstance.initialize();
+    const accounts = msalInstance.getAllAccounts();
+
+    if (accounts.length === 0) {
+      await msalInstance.loginRedirect({
+        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"]
+      });
+      return;
+    }
+
+    try {
+      const tokenResp = await msalInstance.acquireTokenSilent({
+        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"],
+        account: accounts[0]
+      });
+      await enviarASharePoint(tokenResp.accessToken, datos);
+      sessionStorage.removeItem("pendingData");
+      alert("Registro guardado y enviado a SharePoint.");
+    } catch(e) {
+      console.error(e);
+      alert("Registro guardado localmente. Se enviará cuando haya conexión.");
+    }
+    window.location.href = "index.html";
+  }
+
+  msalInstance.initialize().then(() => {
+    msalInstance.handleRedirectPromise().then(async resp => {
+      if (resp && resp.accessToken) {
+        const datos = JSON.parse(sessionStorage.getItem("pendingData") || "null");
+        if (datos) {
+          try {
+            await enviarASharePoint(resp.accessToken, datos);
+            sessionStorage.removeItem("pendingData");
+            alert("Registro enviado a SharePoint.");
+          } catch(e) {
+            alert("Error al enviar. Datos guardados localmente.");
+          }
+        }
+        window.location.href = "index.html";
+      }
+    }).catch(e => console.error(e));
+  });
+
   renderDiametros();
   renderEspesores();
   lucide.createIcons();
 </script>
 <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/TrefiApp/sw.js');
-    }
-  </script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/TrefiApp/sw.js');
+  }
+</script>
 </body>
 </html>
