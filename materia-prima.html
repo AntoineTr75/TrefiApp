@@ -626,52 +626,82 @@
   }
 
   // Guardar
-  function guardarRegistro() {
-    const registro = {
-      fecha:         document.getElementById("fechaTexto").textContent,
-      responsable:   document.getElementById("responsable").value,
-      proveedor:     document.querySelector('input[name="proveedor"]:checked')?.value || "",
-      producto:      document.getElementById("nombreProducto").value,
-      facGuia:       document.getElementById("facGuia").value,
-      nOC:           document.getElementById("nOC").value,
-      cantidad:      document.getElementById("cantidad").value,
-      tipo:          tipoActual,
-      diametro:      document.querySelector('input[name="diametro"]:checked')?.value || "",
-      espesor:       document.querySelector('input[name="espesor"]:checked')?.value || "",
-      largo:         document.getElementById("largo").value,
-      largoMedido:   document.getElementById("largoMedido").value,
-      observaciones: document.getElementById("observaciones").value,
-      medDiams: [],
-      medEsps:  [],
-      stats: {
-        diam: {
-          prom: document.getElementById("statDiamProm").textContent,
-          dev:  document.getElementById("statDiamDev").textContent,
-          min:  document.getElementById("statDiamMin").textContent,
-          max:  document.getElementById("statDiamMax").textContent,
-        },
-        esp: {
-          prom: document.getElementById("statEspProm").textContent,
-          dev:  document.getElementById("statEspDev").textContent,
-          min:  document.getElementById("statEspMin").textContent,
-          max:  document.getElementById("statEspMax").textContent,
-        }
-      }
-    };
+  async function guardarRegistro() {
+  const ahora = new Date();
+  const fecha = ahora.toISOString().slice(0,10);
+  const hora = ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"});
 
-    for (let i = 1; i <= 10; i++) {
-      registro.medDiams.push(document.getElementById("diam"+i).value || "");
-      registro.medEsps.push(document.getElementById("esp"+i).value  || "");
-    }
+  const datos = {
+    "__metadata": { "type": "SP.Data.TrefiApp_x005f_CalidadV1ListItem" },
+    "Title": fecha,
+    "fecha": fecha,
+    "hora": hora,
+    "responsable": document.getElementById("responsable").value,
+    "proveedor": document.querySelector('input[name="proveedor"]:checked')?.value || "",
+    "nombre_producto": document.getElementById("nombreProducto").value,
+    "tipo": tipoActual,
+    "diametro": document.querySelector('input[name="diametro"]:checked')?.value || "",
+    "espesor": document.querySelector('input[name="espesor"]:checked')?.value || "",
+    "largo": document.getElementById("largo").value,
+    "cantidad": parseFloat(document.getElementById("cantidad").value) || 0,
+    "fac_guia": document.getElementById("facGuia").value,
+    "n_oc": document.getElementById("nOC").value,
+    "tol_diam_max": parseFloat(document.getElementById("tolDiamMax").textContent) || 0,
+    "tol_diam_min": parseFloat(document.getElementById("tolDiamMin").textContent) || 0,
+    "tol_esp_max": parseFloat(document.getElementById("tolEspMax").textContent) || 0,
+    "tol_esp_min": parseFloat(document.getElementById("tolEspMin").textContent) || 0,
+    "largo_medido": parseFloat(document.getElementById("largoMedido").value) || 0,
+    "observaciones": document.getElementById("observaciones").value,
+  };
 
-    const registros = JSON.parse(localStorage.getItem("trefiapp_mp") || "[]");
-    registros.push(registro);
-    localStorage.setItem("trefiapp_mp", JSON.stringify(registros));
-
-    alert("Registro guardado correctamente.");
-    window.location.href = "index.html";
+  for (let i = 1; i <= 10; i++) {
+    datos[`diam_${i}`] = parseFloat(document.getElementById("diam"+i).value) || 0;
+    datos[`esp_${i}`]  = parseFloat(document.getElementById("esp"+i).value)  || 0;
   }
 
+  datos["diam_promedio"]  = parseFloat(document.getElementById("statDiamProm").textContent) || 0;
+  datos["diam_desv_est"]  = parseFloat(document.getElementById("statDiamDev").textContent)  || 0;
+  datos["diam_min"]       = parseFloat(document.getElementById("statDiamMin").textContent)  || 0;
+  datos["diam_max"]       = parseFloat(document.getElementById("statDiamMax").textContent)  || 0;
+  datos["esp_promedio"]   = parseFloat(document.getElementById("statEspProm").textContent)  || 0;
+  datos["esp_desv_est"]   = parseFloat(document.getElementById("statEspDev").textContent)   || 0;
+  datos["esp_min"]        = parseFloat(document.getElementById("statEspMin").textContent)   || 0;
+  datos["esp_max"]        = parseFloat(document.getElementById("statEspMax").textContent)   || 0;
+
+  // Guardar local siempre
+  const registros = JSON.parse(localStorage.getItem("trefiapp_mp") || "[]");
+  registros.push(datos);
+  localStorage.setItem("trefiapp_mp", JSON.stringify(registros));
+
+  // Intentar enviar a SharePoint
+  try {
+    const tokenResp = await fetch(
+      "https://trefimet.sharepoint.com/sites/mejora/_api/contextinfo",
+      { method: "POST", headers: { "Accept": "application/json;odata=verbose" }, credentials: "include" }
+    );
+    const tokenData = await tokenResp.json();
+    const token = tokenData.d.GetContextWebInformation.FormDigestValue;
+
+    await fetch(
+      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_CalidadV1')/items",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Accept": "application/json;odata=verbose",
+          "Content-Type": "application/json;odata=verbose",
+          "X-RequestDigest": token
+        },
+        body: JSON.stringify(datos)
+      }
+    );
+    alert("Registro guardado y enviado a SharePoint.");
+  } catch(e) {
+    alert("Registro guardado localmente. Se enviará cuando haya conexión.");
+  }
+
+  window.location.href = "index.html";
+}
   // Init
   renderDiametros();
   renderEspesores();
