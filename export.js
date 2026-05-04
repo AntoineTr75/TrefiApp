@@ -7,29 +7,22 @@ function exportarExcel() {
   }
 
   const headers = [
-    "Fecha", "Responsable", "Proveedor", "Producto", "N° Fac./Guía", "N° OC",
-    "Cantidad", "Tipo", "Diámetro", "Espesor", "Largo", "Largo Medido",
-    "Diam 1","Diam 2","Diam 3","Diam 4","Diam 5",
-    "Diam 6","Diam 7","Diam 8","Diam 9","Diam 10",
-    "Prom Diám","Dev Diám","Mín Diám","Máx Diám",
-    "Esp 1","Esp 2","Esp 3","Esp 4","Esp 5",
-    "Esp 6","Esp 7","Esp 8","Esp 9","Esp 10",
-    "Prom Esp","Dev Esp","Mín Esp","Máx Esp",
-    "Observaciones"
+    "fecha","hora","responsable","proveedor","nombre_producto",
+    "tipo","diametro","espesor","largo","cantidad","fac_guia","n_oc",
+    "tol_diam_max","tol_diam_min","tol_esp_max","tol_esp_min",
+    "diam_1","diam_2","diam_3","diam_4","diam_5",
+    "diam_6","diam_7","diam_8","diam_9","diam_10",
+    "diam_promedio","diam_desv_est","diam_min","diam_max",
+    "esp_1","esp_2","esp_3","esp_4","esp_5",
+    "esp_6","esp_7","esp_8","esp_9","esp_10",
+    "esp_promedio","esp_desv_est","esp_min","esp_max",
+    "largo_medido","observaciones"
   ];
 
-  const filas = registros.map(r => [
-    r.fecha, r.responsable, r.proveedor, r.producto, r.facGuia, r.nOC,
-    r.cantidad, r.tipo, r.diametro, r.espesor, r.largo, r.largoMedido,
-    ...r.medDiams,
-    r.stats.diam.prom, r.stats.diam.dev, r.stats.diam.min, r.stats.diam.max,
-    ...r.medEsps,
-    r.stats.esp.prom, r.stats.esp.dev, r.stats.esp.min, r.stats.esp.max,
-    r.observaciones
-  ]);
+  const filas = registros.map(r => headers.map(h => r[h] ?? ""));
 
   const csv = [headers, ...filas]
-    .map(row => row.map(cell => `"${String(cell ?? "").replace(/"/g, '""')}"`).join(","))
+    .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(","))
     .join("\n");
 
   const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
