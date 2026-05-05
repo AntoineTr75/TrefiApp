@@ -1,20 +1,6 @@
-const CACHE = "trefiapp-v1";
-const ARCHIVOS = [
-  "/index.html",
-  "/materia-prima.html",
-  "/data.js",
-  "/export.js",
-  "/manifest.json"
-];
-
-self.addEventListener("install", e => {
+self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(ARCHIVOS))
-  );
-});
-
-self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(resp => resp || fetch(e.request))
+    caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
   );
 });
