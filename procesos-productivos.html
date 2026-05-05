@@ -247,31 +247,30 @@
       margin-top: 4px;
     }
 
-    /* Proceso selector */
-    .proceso-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--sp1);
-    }
-
-    .proceso-btn {
+    /* Dropdown estilizado */
+    .field select {
+      width: 100%;
       background: var(--gris2);
       border: 1px solid #3a3a3a;
       border-radius: var(--radio);
-      padding: 14px 10px;
-      cursor: pointer;
+      padding: 12px var(--sp2);
+      font-size: 15px;
       color: var(--blanco);
-      font-size: 13px;
-      font-weight: 600;
-      text-align: center;
-      transition: all 0.15s;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e8a020' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
     }
-
-    .proceso-btn:hover { border-color: var(--naranja); }
-    .proceso-btn.selected {
+    .field select:focus {
+      outline: none;
       border-color: var(--naranja);
-      background: rgba(232,160,32,0.15);
-      color: var(--naranja);
+    }
+    .field select option {
+      background: var(--gris2);
+      color: var(--blanco);
     }
 
     /* Campos dinámicos ocultos */
@@ -337,7 +336,11 @@
     <!-- SELECTOR DE PROCESO -->
     <div class="seccion">
       <div class="seccion-title">Proceso</div>
-      <div class="proceso-grid" id="procesoGrid"></div>
+      <div class="field">
+        <select id="selectProceso" onchange="seleccionarProceso(this.value)">
+          <option value="">— Selecciona un proceso —</option>
+        </select>
+      </div>
     </div>
 
     <!-- CAMPOS COMUNES (visibles tras elegir proceso) -->
@@ -347,7 +350,9 @@
       <div class="seccion" id="seccionMaquina">
         <div class="seccion-title" id="labelMaquina">Máquina</div>
         <div class="field">
-          <div class="radio-group" id="maquinaGroup"></div>
+          <select id="selectMaquina">
+            <option value="">— Selecciona —</option>
+          </select>
         </div>
       </div>
 
@@ -360,7 +365,9 @@
         </div>
         <div class="field">
           <label>Operador</label>
-          <div class="radio-group" id="operadorGroup"></div>
+          <select id="selectOperador">
+            <option value="">— Selecciona operador —</option>
+          </select>
         </div>
       </div>
 
@@ -370,7 +377,9 @@
         <div class="row">
           <div class="field">
             <label>Lanza</label>
-            <div class="radio-group" id="lanzaGroup"></div>
+            <select id="selectLanza">
+              <option value="">— Lanza —</option>
+            </select>
           </div>
           <div class="field">
             <label>Medida</label>
@@ -396,7 +405,12 @@
         </div>
         <div class="field">
           <label>Tipo de Punta</label>
-          <div class="radio-group" id="tipoPuntaGroup"></div>
+          <select id="selectTipoPunta">
+            <option value="">— Selecciona —</option>
+            <option>4.8x200</option><option>6.0x200</option><option>6.0x230</option>
+            <option>8.5x200</option><option>8.5x230</option><option>12x50</option>
+            <option>12x150</option><option>12x200</option><option>19x100</option>
+          </select>
         </div>
         <div class="row">
           <div class="field">
@@ -429,7 +443,11 @@
         </div>
         <div class="field">
           <label>Característica</label>
-          <div class="radio-group" id="caracteristicaGroup"></div>
+          <select id="selectCaracteristica">
+            <option value="">— Selecciona —</option>
+            <option>Cámara</option><option>Bisel y FCT</option><option>Hilo</option>
+            <option>Copla</option><option>Ceramizada</option>
+          </select>
         </div>
         <div class="field">
           <label>Largo</label>
@@ -437,7 +455,10 @@
         </div>
         <div class="field">
           <label>Parte</label>
-          <div class="radio-grid" id="parteGroup"></div>
+          <select id="selectParte">
+            <option value="">— Selecciona —</option>
+            <option>Camisa</option><option>Otro</option>
+          </select>
         </div>
       </div>
 
@@ -488,11 +509,17 @@
         <div class="row">
           <div class="field">
             <label>Lado 1</label>
-            <div class="radio-group" id="lado1Group"></div>
+            <select id="selectLado1">
+              <option value="">— Sierra —</option>
+              <option>SIE1</option><option>SIE2</option><option>SIE3</option><option>SIE4</option>
+            </select>
           </div>
           <div class="field">
             <label>Lado 2</label>
-            <div class="radio-group" id="lado2Group"></div>
+            <select id="selectLado2">
+              <option value="">— Sierra —</option>
+              <option>SIE1</option><option>SIE2</option><option>SIE3</option><option>SIE4</option>
+            </select>
           </div>
         </div>
         <div class="row">
@@ -632,28 +659,40 @@
 
   let procesoActual = null;
 
-  // Render proceso grid
-  const grid = document.getElementById("procesoGrid");
+  // Poblar dropdown procesos
+  const selProceso = document.getElementById("selectProceso");
   PROCESOS.forEach(p => {
-    const btn = document.createElement("div");
-    btn.className = "proceso-btn";
-    btn.textContent = p;
-    btn.onclick = () => seleccionarProceso(p, btn);
-    grid.appendChild(btn);
+    const opt = document.createElement("option");
+    opt.value = p; opt.textContent = p;
+    selProceso.appendChild(opt);
   });
 
-  function seleccionarProceso(proceso, btn) {
-    procesoActual = proceso;
-    document.querySelectorAll(".proceso-btn").forEach(b => b.classList.remove("selected"));
-    btn.classList.add("selected");
+  // Poblar dropdown operadores
+  const selOperador = document.getElementById("selectOperador");
+  OPERADORES.forEach(o => {
+    const opt = document.createElement("option");
+    opt.value = o; opt.textContent = o;
+    selOperador.appendChild(opt);
+  });
 
-    // Mostrar campos comunes
+  // Poblar dropdown lanzas
+  const selLanza = document.getElementById("selectLanza");
+  LANZAS.forEach(l => {
+    const opt = document.createElement("option");
+    opt.value = l; opt.textContent = l;
+    selLanza.appendChild(opt);
+  });
+
+  function seleccionarProceso(proceso) {
+    procesoActual = proceso || null;
+    if (!proceso) {
+      document.getElementById("camposComunes").classList.add("hidden");
+      return;
+    }
+
     document.getElementById("camposComunes").classList.remove("hidden");
-
-    // Ocultar todos los campos específicos
     document.querySelectorAll(".campos-proceso").forEach(el => el.classList.remove("visible"));
 
-    // Mostrar máquina si aplica
     const secMaq = document.getElementById("seccionMaquina");
     const secLanza = document.getElementById("seccionLanza");
 
@@ -661,22 +700,24 @@
       secMaq.classList.add("hidden");
       secLanza.classList.remove("hidden");
     } else {
-      secMaq.classList.remove("hidden");
-      document.getElementById("labelMaquina").textContent = MAQUINAS[proceso]?.label || "Máquina";
-      renderRadioGroup("maquinaGroup", MAQUINAS[proceso]?.items || [], "maquina");
-
-      // Corte con Sierra: lanza visible pero máquina es lado1+lado2
+      const maqData = MAQUINAS[proceso];
       if (proceso === "Corte con Sierra") {
-        renderRadioGroup("lado1Group", SIERRAS, "lado1");
-        renderRadioGroup("lado2Group", SIERRAS, "lado2");
-        secMaq.classList.add("hidden"); // manejado dentro del bloque específico
+        secMaq.classList.add("hidden");
+      } else {
+        secMaq.classList.remove("hidden");
+        document.getElementById("labelMaquina").textContent = maqData?.label || "Máquina";
+        const sel = document.getElementById("selectMaquina");
+        sel.innerHTML = `<option value="">— Selecciona —</option>`;
+        (maqData?.items || []).forEach(item => {
+          const opt = document.createElement("option");
+          opt.value = opt.textContent = item;
+          sel.appendChild(opt);
+        });
       }
       secLanza.classList.remove("hidden");
     }
 
-    // Mostrar campos específicos del proceso
-    const camposId = "campos-" + proceso;
-    const camposEl = document.getElementById(camposId);
+    const camposEl = document.getElementById("campos-" + proceso);
     if (camposEl) camposEl.classList.add("visible");
   }
 
@@ -710,13 +751,8 @@
     });
   }
 
-  // Render estáticos
-  renderRadioGroup("operadorGroup", OPERADORES, "operador");
-  renderRadioGroup("lanzaGroup", LANZAS, "lanza");
-  renderRadioGroup("tipoPuntaGroup", ["4.8x200","6.0x200","6.0x230","8.5x200","8.5x230","12x50","12x150","12x200","19x100"], "tipoPunta");
-  renderRadioGroup("caracteristicaGroup", ["Cámara","Bisel y FCT","Hilo","Copla","Ceramizada"], "caracteristica");
+  // Render estáticos para campos específicos
   renderRadioGroup("largoTrefiGroup", LARGOS_STD, "largoTrefi");
-  renderRadioGrid("parteGroup", ["Camisa","Otro"], "parte");
   renderRadioGroup("largoEndGroup", LARGOS_STD, "largoEnd");
 
   function mostrarAdjuntos() {
@@ -745,49 +781,11 @@
       "fecha": ahora.toISOString().slice(0,10),
       "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
       "proceso": procesoActual || "",
-      "maquina": document.querySelector('input[name="maquina"]:checked')?.value || "",
-      "of": document.getElementById("of").value,
-      "operador": document.querySelector('input[name="operador"]:checked')?.value || "",
-      "lanza": document.querySelector('input[name="lanza"]:checked')?.value || "",
-      "medida": document.getElementById("medida").value,
-      // Conificado
-      "lainas": document.getElementById("lainas").value,
-      "mordaza": document.getElementById("mordaza").value,
-      "tipo_punta": document.querySelector('input[name="tipoPunta"]:checked')?.value || "",
-      "diametro": document.getElementById("diametroCon").value,
-      "largo_punta": document.getElementById("largoPunta").value,
-      // Trefilado
-      "guia": document.getElementById("guia").value,
-      "matriz": document.getElementById("matriz").value,
-      "trefilado": document.getElementById("trefilado").value,
-      "caracteristica": document.querySelector('input[name="caracteristica"]:checked')?.value || "",
-      "largo_trefi": document.querySelector('input[name="largoTrefi"]:checked')?.value || "",
-      "parte": document.querySelector('input[name="parte"]:checked')?.value || "",
-      // Enderezado
-      "largo_end": document.querySelector('input[name="largoEnd"]:checked')?.value || "",
-      "camara": document.getElementById("toggleCamara").checked ? "Con Cámara" : "Sin Cámara",
-      "n_lanzas_of": document.getElementById("nLanzasOF").value,
-      "derechas": document.getElementById("derechas").value,
-      "lanzas_fisuradas": document.getElementById("lanzasFisuradas").value,
-      "porcentaje_ec": document.getElementById("porcentajeEC").value,
-      // Corte con sierra
-      "lado1": document.querySelector('input[name="lado1"]:checked')?.value || "",
-      "lado2": document.querySelector('input[name="lado2"]:checked')?.value || "",
-      "cant_cortada": document.getElementById("cantCortada").value,
-      "largo_corte": document.getElementById("largoCorteSierra").value,
-      "n_camara": document.getElementById("nCamara").value,
-      "largo_camara": document.getElementById("largoCamara").value,
-      // Ranurado
-      "bisel": document.getElementById("bisel").value,
-      "largo_ranura": document.getElementById("largoRanura").value,
-      "ranura_prof": document.getElementById("ranuraProf").value,
-      "ranura_diam": document.getElementById("ranuraDiam").value,
-      "pasa_no_pasa": document.getElementById("togglePasaNoPasa").checked ? "No Pasa" : "Pasa",
-      // Postura FCT
-      "profundidad": document.getElementById("profundidad").value,
-      "apriete": document.getElementById("apriete").value,
-      // Cierre
-      "observaciones": document.getElementById("observaciones").value,
+      "maquina": document.getElementById("selectMaquina")?.value || "",
+      "of": document.getElementById("of")?.value || "",
+      "operador": document.getElementById("selectOperador")?.value || "",
+      "lanza": document.getElementById("selectLanza")?.value || "",
+      "observaciones": document.getElementById("observaciones")?.value || "",
     };
   }
 
