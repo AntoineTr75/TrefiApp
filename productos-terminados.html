@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#e8a020">
+  <title>Productos Terminados</title>
+  <script src="data.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+  <style>
+    :root {
+      --negro: #0a0a0a;
+      --gris: #1e1e1e;
+      --gris2: #2a2a2a;
+      --gris3: #333333;
+      --naranja: #e8a020;
+      --blanco: #ffffff;
+      --texto-sec: rgba(255,255,255,0.55);
+      --radio: 10px;
+      --sp1: 8px;
+      --sp2: 16px;
+      --sp3: 24px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--negro);
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--gris);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 480px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .header {
+      background: var(--negro);
+      border-bottom: 2px solid var(--naranja);
+      padding: var(--sp2) var(--sp3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header a {
+      color: var(--texto-sec);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .header a:hover { color: var(--naranja); }
+
+    .header h2 {
+      color: var(--blanco);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .form-body { padding: var(--sp3); }
+
+    .seccion { margin-bottom: var(--sp3); }
+
+    .seccion-title {
+      color: var(--naranja);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: var(--sp2);
+      padding-bottom: var(--sp1);
+      border-bottom: 1px solid #333;
+    }
+
+    .field { margin-bottom: var(--sp2); }
+
+    .field label {
+      display: block;
+      color: var(--texto-sec);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .field input[type="text"],
+    .field input[type="number"],
+    .field textarea {
+      width: 100%;
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 12px var(--sp2);
+      font-size: 15px;
+      color: var(--blanco);
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--naranja);
+    }
+
+    .field textarea { height: 80px; resize: none; }
+
+    .row { display: flex; gap: var(--sp2); }
+    .row .field { flex: 1; }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp1);
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 10px var(--sp2);
+      cursor: pointer;
+      color: var(--blanco);
+      font-size: 14px;
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: 0;
+      transition: all 0.15s;
+    }
+
+    .radio-group label:hover { border-color: var(--naranja); }
+
+    .radio-group label.selected {
+      border-color: var(--naranja);
+      background: rgba(232,160,32,0.12);
+      color: var(--naranja);
+    }
+
+    .radio-group input[type="radio"] { display: none; }
+
+    /* Grid para Lanza + Medida + Largo */
+    .lanza-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--sp2);
+    }
+
+    .lanza-grid .field { margin-bottom: 0; }
+
+    .lanza-grid .field label {
+      text-align: center;
+    }
+
+    .radio-group-horiz {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp1);
+    }
+
+    .radio-group-horiz label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 9px 12px;
+      cursor: pointer;
+      color: var(--blanco);
+      font-size: 14px;
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: 0;
+      transition: all 0.15s;
+    }
+
+    .radio-group-horiz label:hover { border-color: var(--naranja); }
+
+    .radio-group-horiz label.selected {
+      border-color: var(--naranja);
+      background: rgba(232,160,32,0.12);
+      color: var(--naranja);
+    }
+
+    .radio-group-horiz input[type="radio"] { display: none; }
+
+    .file-input-wrap {
+      background: var(--gris2);
+      border: 1px dashed #3a3a3a;
+      border-radius: var(--radio);
+      padding: var(--sp2);
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .file-input-wrap:hover { border-color: var(--naranja); }
+    .file-input-wrap p { color: var(--texto-sec); font-size: 13px; margin-top: 6px; }
+    .file-input-wrap input { display: none; }
+
+    .btn-guardar {
+      width: 100%;
+      background: var(--naranja);
+      color: var(--negro);
+      border: none;
+      border-radius: var(--radio);
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: var(--sp1);
+    }
+
+    .btn-guardar:hover { background: #f0b030; transform: translateY(-1px); }
+    .btn-guardar:active { transform: translateY(0); }
+
+    .fecha-text { color: var(--blanco); font-size: 15px; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <a href="index.html"><i data-lucide="x"></i></a>
+    <h2>Productos Terminados</h2>
+    <span style="width:24px"></span>
+  </div>
+
+  <div class="form-body">
+
+    <div class="seccion">
+      <div class="seccion-title">Información General</div>
+
+      <div class="field">
+        <label>Fecha y Hora</label>
+        <div class="fecha-text" id="fechaTexto"></div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Folio Calidad</label>
+          <input type="text" id="folioCalidad" placeholder="Ej: FC-001">
+        </div>
+        <div class="field">
+          <label>Última OF</label>
+          <input type="text" id="ultimaOF" placeholder="Ej: OF-123">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Código</label>
+          <input type="text" id="codigo" placeholder="Código producto">
+        </div>
+        <div class="field">
+          <label>OV Asociada</label>
+          <input type="text" id="ovAsociada" placeholder="Ej: OV-456">
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion">
+      <div class="seccion-title">Especificaciones</div>
+
+      <div class="lanza-grid">
+        <div class="field">
+          <label>Lanza</label>
+          <div class="radio-group-horiz" id="lanzaGroup"></div>
+        </div>
+        <div class="field">
+          <label>Medida</label>
+          <input type="text" id="medida" placeholder="mm">
+        </div>
+        <div class="field">
+          <label>Largo</label>
+          <div class="radio-group-horiz" id="largoGroup"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion">
+      <div class="seccion-title">Cierre</div>
+
+      <div class="field">
+        <label>Observaciones</label>
+        <textarea id="observaciones" placeholder="Ingresa observaciones..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Datos Adjuntos</label>
+        <div class="file-input-wrap" onclick="document.getElementById('adjuntos').click()">
+          <i data-lucide="paperclip" style="color:#e8a020; width:24px; height:24px;"></i>
+          <p id="adjuntosLabel">Toca para adjuntar foto o archivo</p>
+          <input type="file" id="adjuntos" multiple accept="image/*,.pdf,.xlsx,.docx"
+            onchange="mostrarAdjuntos()">
+        </div>
+      </div>
+
+      <button class="btn-guardar" onclick="guardarRegistro()">Guardar Registro</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Fecha
+  const ahora = new Date();
+  document.getElementById("fechaTexto").textContent =
+    ahora.toLocaleDateString("es-CL") + " " +
+    ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"});
+
+  // Lanza opciones
+  const LANZAS = ["OB", "SOB", "UOB", "TR", "HL"];
+  const LARGOS = ["3000", "4000", "5000", "5700", "6000"];
+
+  function renderRadioVert(containerId, items, name) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+    items.forEach(item => {
+      const label = document.createElement("label");
+      label.innerHTML = `<input type="radio" name="${name}" value="${item}"> ${item}`;
+      label.querySelector("input").addEventListener("change", () => {
+        container.querySelectorAll("label").forEach(l => l.classList.remove("selected"));
+        label.classList.add("selected");
+      });
+      container.appendChild(label);
+    });
+  }
+
+  renderRadioVert("lanzaGroup", LANZAS, "lanza");
+  renderRadioVert("largoGroup", LARGOS, "largo");
+
+  function mostrarAdjuntos() {
+    const files = document.getElementById("adjuntos").files;
+    document.getElementById("adjuntosLabel").textContent =
+      files.length > 0 ? `${files.length} archivo(s) seleccionado(s)` : "Toca para adjuntar foto o archivo";
+  }
+
+  // MSAL
+  const msalConfig = {
+    auth: {
+      clientId: "8deccadf-6d77-494e-8a48-b672aa25f518",
+      authority: "https://login.microsoftonline.com/3c56ae46-806e-488d-9efb-c7d4ff4d7833",
+      redirectUri: "https://antoinetr75.github.io/TrefiApp/productos-terminados.html"
+    },
+    cache: { cacheLocation: "localStorage" }
+  };
+
+  const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+  function recopilarDatos() {
+    const ahora = new Date();
+    return {
+      "__metadata": { "type": "SP.Data.TrefiApp_x005f_ProductosTermV1ListItem" },
+      "Title": ahora.toISOString().slice(0,10),
+      "fecha": ahora.toISOString().slice(0,10),
+      "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
+      "folio_calidad": document.getElementById("folioCalidad").value,
+      "ultima_of": document.getElementById("ultimaOF").value,
+      "codigo": document.getElementById("codigo").value,
+      "ov_asociada": document.getElementById("ovAsociada").value,
+      "lanza": document.querySelector('input[name="lanza"]:checked')?.value || "",
+      "medida": document.getElementById("medida").value,
+      "largo": document.querySelector('input[name="largo"]:checked')?.value || "",
+      "observaciones": document.getElementById("observaciones").value,
+    };
+  }
+
+  async function enviarASharePoint(token, datos) {
+    const contextResp = await fetch(
+      "https://trefimet.sharepoint.com/sites/mejora/_api/contextinfo",
+      { method: "POST", headers: { "Accept": "application/json;odata=verbose", "Authorization": `Bearer ${token}` }}
+    );
+    const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
+    await fetch(
+      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_ProductosTermV1')/items",
+      {
+        method: "POST",
+        headers: {
+          "Accept": "application/json;odata=verbose",
+          "Content-Type": "application/json;odata=verbose",
+          "Authorization": `Bearer ${token}`,
+          "X-RequestDigest": digest
+        },
+        body: JSON.stringify(datos)
+      }
+    );
+  }
+
+  async function guardarRegistro() {
+    const datos = recopilarDatos();
+    const registros = JSON.parse(localStorage.getItem("trefiapp_pt") || "[]");
+    registros.push(datos);
+    localStorage.setItem("trefiapp_pt", JSON.stringify(registros));
+    sessionStorage.setItem("pendingDataPT", JSON.stringify(datos));
+
+    await msalInstance.initialize();
+    const accounts = msalInstance.getAllAccounts();
+
+    if (accounts.length === 0) {
+      await msalInstance.loginRedirect({
+        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"]
+      });
+      return;
+    }
+
+    try {
+      const tokenResp = await msalInstance.acquireTokenSilent({
+        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"],
+        account: accounts[0]
+      });
+      await enviarASharePoint(tokenResp.accessToken, datos);
+      sessionStorage.removeItem("pendingDataPT");
+      alert("Registro guardado y enviado a SharePoint.");
+    } catch(e) {
+      console.error(e);
+      alert("Registro guardado localmente. Se enviará cuando haya conexión.");
+    }
+    window.location.href = "index.html";
+  }
+
+  msalInstance.initialize().then(() => {
+    msalInstance.handleRedirectPromise().then(async resp => {
+      if (resp && resp.accessToken) {
+        const datos = JSON.parse(sessionStorage.getItem("pendingDataPT") || "null");
+        if (datos) {
+          try {
+            await enviarASharePoint(resp.accessToken, datos);
+            sessionStorage.removeItem("pendingDataPT");
+            alert("Registro enviado a SharePoint.");
+          } catch(e) {
+            alert("Error al enviar. Datos guardados localmente.");
+          }
+        }
+        window.location.href = "index.html";
+      }
+    }).catch(e => console.error(e));
+  });
+
+  lucide.createIcons();
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/TrefiApp/sw.js');
+  }
+</script>
+</body>
+</html>
