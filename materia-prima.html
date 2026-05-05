@@ -620,36 +620,8 @@
     const datos = {
       "__metadata": { "type": "SP.Data.TrefiApp_x005f_CalidadV1ListItem" },
       "Title": ahora.toISOString().slice(0,10),
-      "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
       "responsable": document.getElementById("responsable").value,
-      "proveedor": document.querySelector('input[name="proveedor"]:checked')?.value || "",
-      "nombre_producto": document.getElementById("nombreProducto").value,
-      "tipo": tipoActual,
-      "diametro": document.querySelector('input[name="diametro"]:checked')?.value || "",
-      "espesor": document.querySelector('input[name="espesor"]:checked')?.value || "",
-      "largo": document.getElementById("largo").value,
-      "cantidad": parseFloat(document.getElementById("cantidad").value) || 0,
-      "fac_guia": document.getElementById("facGuia").value,
-      "n_oc": document.getElementById("nOC").value,
-      "tol_diam_max": parseFloat(document.getElementById("tolDiamMax").textContent) || 0,
-      "tol_diam_min": parseFloat(document.getElementById("tolDiamMin").textContent) || 0,
-      "tol_esp_max": parseFloat(document.getElementById("tolEspMax").textContent) || 0,
-      "tol_esp_min": parseFloat(document.getElementById("tolEspMin").textContent) || 0,
-      "largo_medido": parseFloat(document.getElementById("largoMedido").value) || 0,
-      "observaciones": document.getElementById("observaciones").value,
     };
-    for (let i = 1; i <= 10; i++) {
-      datos[`diam_${i}`] = parseFloat(document.getElementById("diam"+i).value) || 0;
-      datos[`esp_${i}`]  = parseFloat(document.getElementById("esp"+i).value)  || 0;
-    }
-    datos["diam_promedio"] = parseFloat(document.getElementById("statDiamProm").textContent) || 0;
-    datos["diam_desv_est"] = parseFloat(document.getElementById("statDiamDev").textContent)  || 0;
-    datos["diam_min"]      = parseFloat(document.getElementById("statDiamMin").textContent)  || 0;
-    datos["diam_max"]      = parseFloat(document.getElementById("statDiamMax").textContent)  || 0;
-    datos["esp_promedio"]  = parseFloat(document.getElementById("statEspProm").textContent)  || 0;
-    datos["esp_desv_est"]  = parseFloat(document.getElementById("statEspDev").textContent)   || 0;
-    datos["esp_min"]       = parseFloat(document.getElementById("statEspMin").textContent)   || 0;
-    datos["esp_max"]       = parseFloat(document.getElementById("statEspMax").textContent)   || 0;
     return datos;
   }
 
