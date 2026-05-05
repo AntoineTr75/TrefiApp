@@ -618,6 +618,7 @@
   function recopilarDatos() {
     const ahora = new Date();
     const datos = {
+      "__metadata": { "type": "SP.Data.TrefiApp_x005f_CalidadV1ListItem" },
       "Title": ahora.toISOString().slice(0,10),
       "fecha": ahora.toISOString().slice(0,10),
       "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
@@ -654,25 +655,28 @@
   }
 
   async function enviarASharePoint(token, datos) {
-    const contextResp = await fetch(
-      "https://trefimet.sharepoint.com/sites/mejora/_api/contextinfo",
-      { method: "POST", headers: { "Accept": "application/json;odata=verbose", "Authorization": `Bearer ${token}` }}
-    );
-    const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
-    await fetch(
-      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_CalidadV1')/items",
-      {
-        method: "POST",
-        headers: {
-          "Accept": "application/json;odata=nometadata",
-          "Content-Type": "application/json;odata=nometadata",
-          "Authorization": `Bearer ${token}`,
-          "X-RequestDigest": digest
-        },
-        body: JSON.stringify(datos)
-      }
-    );
-  }
+  const contextResp = await fetch(
+    "https://trefimet.sharepoint.com/sites/mejora/_api/contextinfo",
+    { method: "POST", headers: { "Accept": "application/json;odata=verbose", "Authorization": `Bearer ${token}` }}
+  );
+  const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
+  const resp = await fetch(
+    "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_CalidadV1')/items",
+    {
+      method: "POST",
+      headers: {
+        "Accept": "application/json;odata=verbose",
+        "Content-Type": "application/json;odata=verbose",
+        "Authorization": `Bearer ${token}`,
+        "X-RequestDigest": digest
+      },
+      body: JSON.stringify(datos)
+    }
+  );
+  const result = await resp.json();
+  console.log("SharePoint response:", JSON.stringify(result));
+  if (!resp.ok) throw new Error(result.error?.message || resp.status);
+}
 
   async function guardarRegistro() {
     const datos = recopilarDatos();
