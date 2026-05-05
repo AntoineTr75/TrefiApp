@@ -8,7 +8,7 @@ function exportarExcel() {
 
 const headers = [
   "fecha","hora","responsable","proveedor","nombre_producto",
-  "tipo","diametro","espesor","largo","fac_guia","cantidad"
+  "tipo_producto","diametro","espesor","largo","fac_guia","cantidad"
   ];
 
   const filas = registros.map(r => headers.map(h => r[h] ?? ""));
