@@ -6,17 +6,9 @@ function exportarExcel() {
     return;
   }
 
-  const headers = [
-    "fecha","hora","responsable","proveedor","nombre_producto",
-    "tipo","diametro","espesor","largo","cantidad","fac_guia","n_oc",
-    "tol_diam_max","tol_diam_min","tol_esp_max","tol_esp_min",
-    "diam_1","diam_2","diam_3","diam_4","diam_5",
-    "diam_6","diam_7","diam_8","diam_9","diam_10",
-    "diam_promedio","diam_desv_est","diam_min","diam_max",
-    "esp_1","esp_2","esp_3","esp_4","esp_5",
-    "esp_6","esp_7","esp_8","esp_9","esp_10",
-    "esp_promedio","esp_desv_est","esp_min","esp_max",
-    "largo_medido","observaciones"
+const headers = [
+  "fecha","hora","responsable","proveedor","nombre_producto",
+  "tipo","diametro","espesor","largo","fac_guia","cantidad"
   ];
 
   const filas = registros.map(r => headers.map(h => r[h] ?? ""));
