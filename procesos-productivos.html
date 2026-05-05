@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#e8a020">
+  <title>Procesos Productivos</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+  <style>
+    :root {
+      --negro: #0a0a0a;
+      --gris: #1e1e1e;
+      --gris2: #2a2a2a;
+      --gris3: #333333;
+      --naranja: #e8a020;
+      --blanco: #ffffff;
+      --texto-sec: rgba(255,255,255,0.55);
+      --radio: 10px;
+      --sp1: 8px;
+      --sp2: 16px;
+      --sp3: 24px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--negro);
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--gris);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 480px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .header {
+      background: var(--negro);
+      border-bottom: 2px solid var(--naranja);
+      padding: var(--sp2) var(--sp3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header a {
+      color: var(--texto-sec);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .header a:hover { color: var(--naranja); }
+
+    .header h2 {
+      color: var(--blanco);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .form-body { padding: var(--sp3); }
+
+    .seccion { margin-bottom: var(--sp3); }
+
+    .seccion-title {
+      color: var(--naranja);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: var(--sp2);
+      padding-bottom: var(--sp1);
+      border-bottom: 1px solid #333;
+    }
+
+    .field { margin-bottom: var(--sp2); }
+
+    .field label {
+      display: block;
+      color: var(--texto-sec);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .field input[type="text"],
+    .field input[type="number"],
+    .field textarea {
+      width: 100%;
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 12px var(--sp2);
+      font-size: 15px;
+      color: var(--blanco);
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--naranja);
+    }
+
+    .field textarea { height: 80px; resize: none; }
+
+    .row { display: flex; gap: var(--sp2); }
+    .row .field { flex: 1; }
+
+    /* Radio groups */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp1);
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 10px var(--sp2);
+      cursor: pointer;
+      color: var(--blanco);
+      font-size: 14px;
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: 0;
+      transition: all 0.15s;
+    }
+
+    .radio-group label:hover { border-color: var(--naranja); }
+    .radio-group label.selected {
+      border-color: var(--naranja);
+      background: rgba(232,160,32,0.12);
+      color: var(--naranja);
+    }
+    .radio-group input[type="radio"] { display: none; }
+
+    /* Radio grid 2 cols */
+    .radio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp1);
+    }
+
+    .radio-grid label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 10px 12px;
+      cursor: pointer;
+      color: var(--blanco);
+      font-size: 14px;
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: 0;
+      transition: all 0.15s;
+    }
+
+    .radio-grid label:hover { border-color: var(--naranja); }
+    .radio-grid label.selected {
+      border-color: var(--naranja);
+      background: rgba(232,160,32,0.12);
+      color: var(--naranja);
+    }
+    .radio-grid input[type="radio"] { display: none; }
+
+    /* Toggle */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--sp2);
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 12px var(--sp2);
+    }
+
+    .toggle-label { flex: 1; color: var(--blanco); font-size: 14px; }
+    .toggle-label span { color: var(--naranja); font-weight: 700; font-size: 13px; }
+
+    .toggle-switch {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { display: none; }
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: #444;
+      border-radius: 28px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .toggle-slider:before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 3px;
+      top: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .toggle-switch input:checked + .toggle-slider { background: var(--naranja); }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
+
+    /* Slider */
+    .slider-wrap {
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 12px var(--sp2);
+    }
+    .slider-wrap input[type="range"] {
+      width: 100%;
+      accent-color: var(--naranja);
+    }
+    .slider-val {
+      text-align: center;
+      color: var(--naranja);
+      font-weight: 700;
+      font-size: 16px;
+      margin-top: 4px;
+    }
+
+    /* Proceso selector */
+    .proceso-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp1);
+    }
+
+    .proceso-btn {
+      background: var(--gris2);
+      border: 1px solid #3a3a3a;
+      border-radius: var(--radio);
+      padding: 14px 10px;
+      cursor: pointer;
+      color: var(--blanco);
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .proceso-btn:hover { border-color: var(--naranja); }
+    .proceso-btn.selected {
+      border-color: var(--naranja);
+      background: rgba(232,160,32,0.15);
+      color: var(--naranja);
+    }
+
+    /* Campos dinámicos ocultos */
+    .campos-proceso { display: none; }
+    .campos-proceso.visible { display: block; }
+
+    /* File input */
+    .file-input-wrap {
+      background: var(--gris2);
+      border: 1px dashed #3a3a3a;
+      border-radius: var(--radio);
+      padding: var(--sp2);
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .file-input-wrap:hover { border-color: var(--naranja); }
+    .file-input-wrap p { color: var(--texto-sec); font-size: 13px; margin-top: 6px; }
+    .file-input-wrap input { display: none; }
+
+    .btn-guardar {
+      width: 100%;
+      background: var(--naranja);
+      color: var(--negro);
+      border: none;
+      border-radius: var(--radio);
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: var(--sp1);
+    }
+    .btn-guardar:hover { background: #f0b030; transform: translateY(-1px); }
+    .btn-guardar:active { transform: translateY(0); }
+
+    .fecha-text { color: var(--blanco); font-size: 15px; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <a href="index.html"><i data-lucide="x"></i></a>
+    <h2>Procesos Productivos</h2>
+    <span style="width:24px"></span>
+  </div>
+
+  <div class="form-body">
+
+    <!-- INFO GENERAL -->
+    <div class="seccion">
+      <div class="seccion-title">Información General</div>
+      <div class="field">
+        <label>Fecha y Hora</label>
+        <div class="fecha-text" id="fechaTexto"></div>
+      </div>
+    </div>
+
+    <!-- SELECTOR DE PROCESO -->
+    <div class="seccion">
+      <div class="seccion-title">Proceso</div>
+      <div class="proceso-grid" id="procesoGrid"></div>
+    </div>
+
+    <!-- CAMPOS COMUNES (visibles tras elegir proceso) -->
+    <div id="camposComunes" class="hidden">
+
+      <!-- MÁQUINA (dinámica por proceso) -->
+      <div class="seccion" id="seccionMaquina">
+        <div class="seccion-title" id="labelMaquina">Máquina</div>
+        <div class="field">
+          <div class="radio-group" id="maquinaGroup"></div>
+        </div>
+      </div>
+
+      <!-- OF + OPERADOR -->
+      <div class="seccion">
+        <div class="seccion-title">Identificación</div>
+        <div class="field">
+          <label>OF</label>
+          <input type="text" id="of" placeholder="N° Orden de Fabricación">
+        </div>
+        <div class="field">
+          <label>Operador</label>
+          <div class="radio-group" id="operadorGroup"></div>
+        </div>
+      </div>
+
+      <!-- LANZA + MEDIDA -->
+      <div class="seccion" id="seccionLanza">
+        <div class="seccion-title">Lanza y Medida</div>
+        <div class="row">
+          <div class="field">
+            <label>Lanza</label>
+            <div class="radio-group" id="lanzaGroup"></div>
+          </div>
+          <div class="field">
+            <label>Medida</label>
+            <input type="text" id="medida" placeholder="mm">
+          </div>
+        </div>
+      </div>
+
+      <!-- CAMPOS ESPECÍFICOS POR PROCESO -->
+
+      <!-- CONIFICADO -->
+      <div class="seccion campos-proceso" id="campos-Conificado">
+        <div class="seccion-title">Conificado</div>
+        <div class="row">
+          <div class="field">
+            <label>Lainas</label>
+            <input type="text" id="lainas" placeholder="">
+          </div>
+          <div class="field">
+            <label>Mordaza</label>
+            <input type="text" id="mordaza" placeholder="">
+          </div>
+        </div>
+        <div class="field">
+          <label>Tipo de Punta</label>
+          <div class="radio-group" id="tipoPuntaGroup"></div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Diámetro</label>
+            <input type="number" id="diametroCon" step="0.01" placeholder="mm">
+          </div>
+          <div class="field">
+            <label>Largo Punta</label>
+            <input type="number" id="largoPunta" step="0.01" placeholder="mm">
+          </div>
+        </div>
+      </div>
+
+      <!-- TREFILADO -->
+      <div class="seccion campos-proceso" id="campos-Trefilado">
+        <div class="seccion-title">Trefilado</div>
+        <div class="row">
+          <div class="field">
+            <label>Guía</label>
+            <input type="text" id="guia" placeholder="">
+          </div>
+          <div class="field">
+            <label>Matriz</label>
+            <input type="text" id="matriz" placeholder="">
+          </div>
+        </div>
+        <div class="field">
+          <label>Trefilado</label>
+          <input type="text" id="trefilado" placeholder="">
+        </div>
+        <div class="field">
+          <label>Característica</label>
+          <div class="radio-group" id="caracteristicaGroup"></div>
+        </div>
+        <div class="field">
+          <label>Largo</label>
+          <div class="radio-group" id="largoTrefiGroup"></div>
+        </div>
+        <div class="field">
+          <label>Parte</label>
+          <div class="radio-grid" id="parteGroup"></div>
+        </div>
+      </div>
+
+      <!-- ENDEREZADO -->
+      <div class="seccion campos-proceso" id="campos-Enderezado">
+        <div class="seccion-title">Enderezado</div>
+        <div class="field">
+          <label>Largo</label>
+          <div class="radio-group" id="largoEndGroup"></div>
+        </div>
+        <div class="field">
+          <div class="toggle-wrap">
+            <div class="toggle-label">Cámara: <span id="labelCamara">Sin Cámara</span></div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggleCamara" onchange="
+                document.getElementById('labelCamara').textContent = this.checked ? 'Con Cámara' : 'Sin Cámara'">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="field">
+          <label>N° Lanzas OF</label>
+          <input type="number" id="nLanzasOF" placeholder="">
+        </div>
+        <div class="field">
+          <label>Derechas</label>
+          <div class="slider-wrap">
+            <input type="range" id="derechas" min="0" max="100" value="50"
+              oninput="document.getElementById('valDerechas').textContent = this.value">
+            <div class="slider-val" id="valDerechas">50</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Lanzas Fisuradas</label>
+            <input type="number" id="lanzasFisuradas" placeholder="">
+          </div>
+          <div class="field">
+            <label>Porcentaje EC</label>
+            <input type="number" id="porcentajeEC" step="0.1" placeholder="%">
+          </div>
+        </div>
+      </div>
+
+      <!-- CORTE CON SIERRA -->
+      <div class="seccion campos-proceso" id="campos-Corte con Sierra">
+        <div class="seccion-title">Corte con Sierra</div>
+        <div class="row">
+          <div class="field">
+            <label>Lado 1</label>
+            <div class="radio-group" id="lado1Group"></div>
+          </div>
+          <div class="field">
+            <label>Lado 2</label>
+            <div class="radio-group" id="lado2Group"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Cant. Cortada</label>
+            <input type="number" id="cantCortada" placeholder="">
+          </div>
+          <div class="field">
+            <label>Largo</label>
+            <input type="number" id="largoCorteSierra" step="0.01" placeholder="mm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>N° Cámara</label>
+            <input type="text" id="nCamara" placeholder="">
+          </div>
+          <div class="field">
+            <label>Largo Cámara</label>
+            <input type="number" id="largoCamara" step="0.01" placeholder="mm">
+          </div>
+        </div>
+      </div>
+
+      <!-- RANURADO Y BISELADO -->
+      <div class="seccion campos-proceso" id="campos-Ranurado y Biselado">
+        <div class="seccion-title">Ranurado y Biselado</div>
+        <div class="field">
+          <label>Bisel</label>
+          <input type="text" id="bisel" placeholder="">
+        </div>
+        <div class="field">
+          <label>Largo</label>
+          <input type="number" id="largoRanura" step="0.01" placeholder="mm">
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Ranura Prof.</label>
+            <input type="number" id="ranuraProf" step="0.01" value="0">
+          </div>
+          <div class="field">
+            <label>Ranura Diámetro</label>
+            <input type="number" id="ranuraDiam" step="0.01" placeholder="mm">
+          </div>
+        </div>
+        <div class="field">
+          <div class="toggle-wrap">
+            <div class="toggle-label">Pasa no Pasa: <span id="labelPasaNoPasa">Pasa</span></div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="togglePasaNoPasa" onchange="
+                document.getElementById('labelPasaNoPasa').textContent = this.checked ? 'No Pasa' : 'Pasa'">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- POSTURA FCT -->
+      <div class="seccion campos-proceso" id="campos-Postura FCT">
+        <div class="seccion-title">Postura FCT</div>
+        <div class="field">
+          <label>Profundidad</label>
+          <input type="number" id="profundidad" step="0.01" placeholder="mm">
+        </div>
+        <div class="field">
+          <label>Apriete</label>
+          <div class="slider-wrap">
+            <input type="range" id="apriete" min="0" max="100" value="50"
+              oninput="document.getElementById('valApriete').textContent = this.value">
+            <div class="slider-val" id="valApriete">50</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIERRE -->
+      <div class="seccion">
+        <div class="seccion-title">Cierre</div>
+        <div class="field">
+          <label>Observaciones</label>
+          <textarea id="observaciones" placeholder="Ingresa observaciones..."></textarea>
+        </div>
+        <div class="field">
+          <label>Datos Adjuntos</label>
+          <div class="file-input-wrap" onclick="document.getElementById('adjuntos').click()">
+            <i data-lucide="paperclip" style="color:#e8a020; width:24px; height:24px;"></i>
+            <p id="adjuntosLabel">Toca para adjuntar foto o archivo</p>
+            <input type="file" id="adjuntos" multiple accept="image/*,.pdf,.xlsx,.docx"
+              onchange="mostrarAdjuntos()">
+          </div>
+        </div>
+        <button class="btn-guardar" onclick="guardarRegistro()">Guardar Registro</button>
+      </div>
+
+    </div><!-- fin camposComunes -->
+
+  </div>
+</div>
+
+<script>
+  // Fecha
+  const ahora = new Date();
+  document.getElementById("fechaTexto").textContent =
+    ahora.toLocaleDateString("es-CL") + " " +
+    ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"});
+
+  // Datos
+  const OPERADORES = [
+    "Hector Leiva","Manuel Mella","Sergio Morales","Victor Castillo",
+    "Cristian Medina","Mauricio Rivas","Richard Alvarez","Juan Manuel Díaz",
+    "Ruben Porflidt","Francisco Fuente","Leonardo Cespedes"
+  ];
+
+  const LANZAS = ["OB","SOB","UOB","TR","SL","HL"];
+  const LARGOS_STD = ["3.000","4.000","5.000","5.700","6.000"];
+  const SIERRAS = ["SIE1","SIE2","SIE3","SIE4"];
+
+  const MAQUINAS = {
+    "Conificado":         { label: "Conificadora", items: ["CON1","CON2","CON3","CON4","CON5"] },
+    "Trefilado":          { label: "Trefiladora",  items: ["TRE1","TRE2","TRE3"] },
+    "Enderezado":         { label: "Enderezadora", items: ["END1","END2"] },
+    "Corte con Sierra":   { label: "Sierra",       items: [] }, // manejo especial
+    "Ranurado y Biselado":{ label: "Torno Automático", items: ["TOA1","TOA2"] },
+    "Postura FCT":        { label: "Roscadora",    items: ["ROS1","ROS2","ROS3","ROS4","ROS5","ROS6","ROS7","ROS8"] },
+  };
+
+  const PROCESOS = [
+    "Conificado","Trefilado","Enderezado","Corte con Sierra",
+    "Ranurado y Biselado","Postura FCT","Ceramizado",
+    "Carga de Inserto","Roscado/Hilo","Postura de Copla",
+    "Armado FCT","Carga de Alambre","Prensado",
+    "Corte por Tronzadora","Grateado"
+  ];
+
+  // Procesos sin máquina ni lanza
+  const SIN_MAQUINA = ["Ceramizado","Carga de Inserto","Roscado/Hilo","Postura de Copla",
+    "Armado FCT","Carga de Alambre","Prensado","Corte por Tronzadora","Grateado"];
+
+  let procesoActual = null;
+
+  // Render proceso grid
+  const grid = document.getElementById("procesoGrid");
+  PROCESOS.forEach(p => {
+    const btn = document.createElement("div");
+    btn.className = "proceso-btn";
+    btn.textContent = p;
+    btn.onclick = () => seleccionarProceso(p, btn);
+    grid.appendChild(btn);
+  });
+
+  function seleccionarProceso(proceso, btn) {
+    procesoActual = proceso;
+    document.querySelectorAll(".proceso-btn").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+
+    // Mostrar campos comunes
+    document.getElementById("camposComunes").classList.remove("hidden");
+
+    // Ocultar todos los campos específicos
+    document.querySelectorAll(".campos-proceso").forEach(el => el.classList.remove("visible"));
+
+    // Mostrar máquina si aplica
+    const secMaq = document.getElementById("seccionMaquina");
+    const secLanza = document.getElementById("seccionLanza");
+
+    if (SIN_MAQUINA.includes(proceso)) {
+      secMaq.classList.add("hidden");
+      secLanza.classList.remove("hidden");
+    } else {
+      secMaq.classList.remove("hidden");
+      document.getElementById("labelMaquina").textContent = MAQUINAS[proceso]?.label || "Máquina";
+      renderRadioGroup("maquinaGroup", MAQUINAS[proceso]?.items || [], "maquina");
+
+      // Corte con Sierra: lanza visible pero máquina es lado1+lado2
+      if (proceso === "Corte con Sierra") {
+        renderRadioGroup("lado1Group", SIERRAS, "lado1");
+        renderRadioGroup("lado2Group", SIERRAS, "lado2");
+        secMaq.classList.add("hidden"); // manejado dentro del bloque específico
+      }
+      secLanza.classList.remove("hidden");
+    }
+
+    // Mostrar campos específicos del proceso
+    const camposId = "campos-" + proceso;
+    const camposEl = document.getElementById(camposId);
+    if (camposEl) camposEl.classList.add("visible");
+  }
+
+  function renderRadioGroup(containerId, items, name) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = "";
+    items.forEach(item => {
+      const label = document.createElement("label");
+      label.innerHTML = `<input type="radio" name="${name}" value="${item}"> ${item}`;
+      label.querySelector("input").addEventListener("change", () => {
+        container.querySelectorAll("label").forEach(l => l.classList.remove("selected"));
+        label.classList.add("selected");
+      });
+      container.appendChild(label);
+    });
+  }
+
+  function renderRadioGrid(containerId, items, name) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = "";
+    items.forEach(item => {
+      const label = document.createElement("label");
+      label.innerHTML = `<input type="radio" name="${name}" value="${item}"> ${item}`;
+      label.querySelector("input").addEventListener("change", () => {
+        container.querySelectorAll("label").forEach(l => l.classList.remove("selected"));
+        label.classList.add("selected");
+      });
+      container.appendChild(label);
+    });
+  }
+
+  // Render estáticos
+  renderRadioGroup("operadorGroup", OPERADORES, "operador");
+  renderRadioGroup("lanzaGroup", LANZAS, "lanza");
+  renderRadioGroup("tipoPuntaGroup", ["4.8x200","6.0x200","6.0x230","8.5x200","8.5x230","12x50","12x150","12x200","19x100"], "tipoPunta");
+  renderRadioGroup("caracteristicaGroup", ["Cámara","Bisel y FCT","Hilo","Copla","Ceramizada"], "caracteristica");
+  renderRadioGroup("largoTrefiGroup", LARGOS_STD, "largoTrefi");
+  renderRadioGrid("parteGroup", ["Camisa","Otro"], "parte");
+  renderRadioGroup("largoEndGroup", LARGOS_STD, "largoEnd");
+
+  function mostrarAdjuntos() {
+    const files = document.getElementById("adjuntos").files;
+    document.getElementById("adjuntosLabel").textContent =
+      files.length > 0 ? `${files.length} archivo(s) seleccionado(s)` : "Toca para adjuntar foto o archivo";
+  }
+
+  // MSAL
+  const msalConfig = {
+    auth: {
+      clientId: "8deccadf-6d77-494e-8a48-b672aa25f518",
+      authority: "https://login.microsoftonline.com/3c56ae46-806e-488d-9efb-c7d4ff4d7833",
+      redirectUri: "https://antoinetr75.github.io/TrefiApp/procesos-productivos.html"
+    },
+    cache: { cacheLocation: "localStorage" }
+  };
+
+  const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+  function recopilarDatos() {
+    const ahora = new Date();
+    return {
+      "__metadata": { "type": "SP.Data.TrefiApp_x005f_ProcesosV1ListItem" },
+      "Title": ahora.toISOString().slice(0,10),
+      "fecha": ahora.toISOString().slice(0,10),
+      "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
+      "proceso": procesoActual || "",
+      "maquina": document.querySelector('input[name="maquina"]:checked')?.value || "",
+      "of": document.getElementById("of").value,
+      "operador": document.querySelector('input[name="operador"]:checked')?.value || "",
+      "lanza": document.querySelector('input[name="lanza"]:checked')?.value || "",
+      "medida": document.getElementById("medida").value,
+      // Conificado
+      "lainas": document.getElementById("lainas").value,
+      "mordaza": document.getElementById("mordaza").value,
+      "tipo_punta": document.querySelector('input[name="tipoPunta"]:checked')?.value || "",
+      "diametro": document.getElementById("diametroCon").value,
+      "largo_punta": document.getElementById("largoPunta").value,
+      // Trefilado
+      "guia": document.getElementById("guia").value,
+      "matriz": document.getElementById("matriz").value,
+      "trefilado": document.getElementById("trefilado").value,
+      "caracteristica": document.querySelector('input[name="caracteristica"]:checked')?.value || "",
+      "largo_trefi": document.querySelector('input[name="largoTrefi"]:checked')?.value || "",
+      "parte": document.querySelector('input[name="parte"]:checked')?.value || "",
+      // Enderezado
+      "largo_end": document.querySelector('input[name="largoEnd"]:checked')?.value || "",
+      "camara": document.getElementById("toggleCamara").checked ? "Con Cámara" : "Sin Cámara",
+      "n_lanzas_of": document.getElementById("nLanzasOF").value,
+      "derechas": document.getElementById("derechas").value,
+      "lanzas_fisuradas": document.getElementById("lanzasFisuradas").value,
+      "porcentaje_ec": document.getElementById("porcentajeEC").value,
+      // Corte con sierra
+      "lado1": document.querySelector('input[name="lado1"]:checked')?.value || "",
+      "lado2": document.querySelector('input[name="lado2"]:checked')?.value || "",
+      "cant_cortada": document.getElementById("cantCortada").value,
+      "largo_corte": document.getElementById("largoCorteSierra").value,
+      "n_camara": document.getElementById("nCamara").value,
+      "largo_camara": document.getElementById("largoCamara").value,
+      // Ranurado
+      "bisel": document.getElementById("bisel").value,
+      "largo_ranura": document.getElementById("largoRanura").value,
+      "ranura_prof": document.getElementById("ranuraProf").value,
+      "ranura_diam": document.getElementById("ranuraDiam").value,
+      "pasa_no_pasa": document.getElementById("togglePasaNoPasa").checked ? "No Pasa" : "Pasa",
+      // Postura FCT
+      "profundidad": document.getElementById("profundidad").value,
+      "apriete": document.getElementById("apriete").value,
+      // Cierre
+      "observaciones": document.getElementById("observaciones").value,
+    };
+  }
+
+  async function enviarASharePoint(token, datos) {
+    const contextResp = await fetch(
+      "https://trefimet.sharepoint.com/sites/mejora/_api/contextinfo",
+      { method: "POST", headers: { "Accept": "application/json;odata=verbose", "Authorization": `Bearer ${token}` }}
+    );
+    const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
+    await fetch(
+      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_ProcesosV1')/items",
+      {
+        method: "POST",
+        headers: {
+          "Accept": "application/json;odata=verbose",
+          "Content-Type": "application/json;odata=verbose",
+          "Authorization": `Bearer ${token}`,
+          "X-RequestDigest": digest
+        },
+        body: JSON.stringify(datos)
+      }
+    );
+  }
+
+  async function guardarRegistro() {
+    if (!procesoActual) { alert("Selecciona un proceso."); return; }
+    const datos = recopilarDatos();
+    const registros = JSON.parse(localStorage.getItem("trefiapp_proc") || "[]");
+    registros.push(datos);
+    localStorage.setItem("trefiapp_proc", JSON.stringify(registros));
+    sessionStorage.setItem("pendingDataProc", JSON.stringify(datos));
+
+    await msalInstance.initialize();
+    const accounts = msalInstance.getAllAccounts();
+
+    if (accounts.length === 0) {
+      await msalInstance.loginRedirect({
+        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"]
+      });
+      return;
+    }
+
+    try {
+      const tokenResp = await msalInstance.acquireTokenSilent({
+        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"],
+        account: accounts[0]
+      });
+      await enviarASharePoint(tokenResp.accessToken, datos);
+      sessionStorage.removeItem("pendingDataProc");
+      alert("Registro guardado y enviado a SharePoint.");
+    } catch(e) {
+      console.error(e);
+      alert("Registro guardado localmente. Se enviará cuando haya conexión.");
+    }
+    window.location.href = "index.html";
+  }
+
+  msalInstance.initialize().then(() => {
+    msalInstance.handleRedirectPromise().then(async resp => {
+      if (resp && resp.accessToken) {
+        const datos = JSON.parse(sessionStorage.getItem("pendingDataProc") || "null");
+        if (datos) {
+          try {
+            await enviarASharePoint(resp.accessToken, datos);
+            sessionStorage.removeItem("pendingDataProc");
+            alert("Registro enviado a SharePoint.");
+          } catch(e) {
+            alert("Error al enviar. Datos guardados localmente.");
+          }
+        }
+        window.location.href = "index.html";
+      }
+    }).catch(e => console.error(e));
+  });
+
+  lucide.createIcons();
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/TrefiApp/sw.js');
+  }
+</script>
+</body>
+</html>

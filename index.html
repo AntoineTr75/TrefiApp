@@ -7,7 +7,6 @@
   <meta name="theme-color" content="#e8a020">
   <title>TrefiApp</title>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="export.js"></script>
   <style>
     :root {
       --negro: #0a0a0a;
@@ -149,6 +148,13 @@
         <span class="label">Registro de Materia Prima</span>
         <span class="chevron"><i data-lucide="chevron-right"></i></span>
       </a>
+      <a class="menu-item" href="procesos-productivos.html">
+         <div class="icon-wrap">
+          <i data-lucide="settings-2"></i>
+        </div>
+        <span class="label">Procesos Productivos</span>
+        <span class="chevron"><i data-lucide="chevron-right"></i></span>
+      </a>
       <a class="menu-item" href="productos-terminados.html">
        <div class="icon-wrap">
         <i data-lucide="package-check"></i>
@@ -156,14 +162,6 @@
        <span class="label">Productos Terminados</span>
        <span class="chevron"><i data-lucide="chevron-right"></i></span>
       </a>
-    
-      <button class="menu-item" onclick="exportarExcel()">
-        <div class="icon-wrap">
-          <i data-lucide="download"></i>
-        </div>
-        <span class="label">Exportar a Excel</span>
-        <span class="chevron"><i data-lucide="chevron-right"></i></span>
-      </button>
     </div>
 
     <div class="footer">TREFIMET · TrefiApp v1.0</div>
