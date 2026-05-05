@@ -69,7 +69,6 @@
     }
 
     .form-body { padding: var(--sp3); }
-
     .seccion { margin-bottom: var(--sp3); }
 
     .seccion-title {
@@ -115,7 +114,6 @@
     }
 
     .field textarea { height: 80px; resize: none; }
-
     .row { display: flex; gap: var(--sp2); }
     .row .field { flex: 1; }
 
@@ -162,17 +160,8 @@
       padding: 12px var(--sp2);
     }
 
-    .toggle-label {
-      flex: 1;
-      color: var(--blanco);
-      font-size: 14px;
-    }
-
-    .toggle-label span {
-      color: var(--naranja);
-      font-weight: 700;
-      font-size: 13px;
-    }
+    .toggle-label { flex: 1; color: var(--blanco); font-size: 14px; }
+    .toggle-label span { color: var(--naranja); font-weight: 700; font-size: 13px; }
 
     .toggle-switch {
       position: relative;
@@ -278,10 +267,7 @@
       transition: border-color 0.2s;
     }
 
-    .med-input input:focus {
-      outline: none;
-      border-color: var(--naranja);
-    }
+    .med-input input:focus { outline: none; border-color: var(--naranja); }
 
     .stats-grid {
       display: grid;
@@ -350,7 +336,6 @@
 
     .btn-guardar:hover { background: #f0b030; transform: translateY(-1px); }
     .btn-guardar:active { transform: translateY(0); }
-
     .fecha-text { color: var(--blanco); font-size: 15px; }
   </style>
 </head>
@@ -363,30 +348,24 @@
   </div>
 
   <div class="form-body">
-
     <div class="seccion">
       <div class="seccion-title">Información General</div>
-
       <div class="field">
         <label>Fecha de Registro</label>
         <div class="fecha-text" id="fechaTexto"></div>
       </div>
-
       <div class="field">
         <label>Responsable</label>
         <input type="text" id="responsable" placeholder="Nombre del responsable">
       </div>
-
       <div class="field">
         <label>Proveedor</label>
         <div class="radio-group" id="proveedorGroup"></div>
       </div>
-
       <div class="field">
         <label>Nombre del Producto</label>
         <input type="text" id="nombreProducto">
       </div>
-
       <div class="row">
         <div class="field">
           <label>N° Fac./Guía</label>
@@ -397,7 +376,6 @@
           <input type="number" id="nOC" value="0">
         </div>
       </div>
-
       <div class="field">
         <label>Cantidad</label>
         <input type="number" id="cantidad">
@@ -406,7 +384,6 @@
 
     <div class="seccion">
       <div class="seccion-title">Especificaciones</div>
-
       <div class="field">
         <div class="toggle-wrap">
           <div class="toggle-label">Tipo: <span id="labelTipo">Tubo</span></div>
@@ -416,22 +393,18 @@
           </label>
         </div>
       </div>
-
       <div class="field">
         <label>Diámetro</label>
         <div class="radio-group" id="diametroGroup"></div>
       </div>
-
       <div class="field">
         <label>Espesor</label>
         <div class="radio-group" id="espesorGroup"></div>
       </div>
-
       <div class="field">
         <label>Largo</label>
         <input type="text" id="largo">
       </div>
-
       <div class="tol-box">
         <div class="tol-col">
           <h4>Tolerancia Diámetro</h4>
@@ -448,14 +421,12 @@
 
     <div class="seccion">
       <div class="seccion-title">Mediciones de Materia Prima</div>
-
       <div class="med-grid">
         <div class="med-col-header">Diámetros</div>
         <div class="med-col-header">Espesores</div>
         <div id="medDiams"></div>
         <div id="medEsps"></div>
       </div>
-
       <div class="stats-grid">
         <div class="stats-box">
           <h4>Diámetros</h4>
@@ -472,7 +443,6 @@
           <div class="stat-row"><span class="slabel">Máximo</span><span class="sval" id="statEspMax">-</span></div>
         </div>
       </div>
-
       <div class="field">
         <label>Largo Medido</label>
         <input type="number" id="largoMedido" step="0.01">
@@ -481,25 +451,20 @@
 
     <div class="seccion">
       <div class="seccion-title">Cierre</div>
-
       <div class="field">
         <label>Observaciones</label>
         <textarea id="observaciones" placeholder="Ingresa observaciones..."></textarea>
       </div>
-
       <div class="field">
         <label>Datos Adjuntos</label>
         <div class="file-input-wrap" onclick="document.getElementById('adjuntos').click()">
           <i data-lucide="paperclip" style="color:#e8a020; width:24px; height:24px;"></i>
           <p id="adjuntosLabel">Toca para adjuntar foto o archivo</p>
-          <input type="file" id="adjuntos" multiple accept="image/*,.pdf,.xlsx,.docx"
-            onchange="mostrarAdjuntos()">
+          <input type="file" id="adjuntos" multiple accept="image/*,.pdf,.xlsx,.docx" onchange="mostrarAdjuntos()">
         </div>
       </div>
-
       <button class="btn-guardar" onclick="guardarRegistro()">Guardar Registro</button>
     </div>
-
   </div>
 </div>
 
@@ -615,50 +580,51 @@
 
   const msalInstance = new msal.PublicClientApplication(msalConfig);
 
-function recopilarDatos() {
-  const ahora = new Date();
-  const datos = {
-    "Title": ahora.toISOString().slice(0,10),
-    "responsable": document.getElementById("responsable").value,
-  };
-  return datos;
-}
+  function recopilarDatos() {
+    const ahora = new Date();
+    const datos = {
+      "Title": ahora.toISOString().slice(0,10),
+      "responsable": document.getElementById("responsable").value,
+    };
+    return datos;
+  }
 
   async function enviarASharePoint(token, datos) {
-  const contextResp = await fetch(
-    "https://trefimet.sharepoint.com/sites/mejora/_api/contextinfo",
-    { method: "POST", headers: { "Accept": "application/json;odata=verbose", "Authorization": `Bearer ${token}` }}
-  );
-  const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
-  const resp = await fetch(
-    "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_CalidadV1')/items",
-    {
-      method: "POST",
-      headers: {
-        "Accept": "application/json;odata=nometadata",
-        "Content-Type": "application/json;odata=nometadata",
-        "Authorization": `Bearer ${token}`,
-        "X-RequestDigest": digest
-      },
-      body: JSON.stringify(datos)
-    }
-  );
-  const result = await resp.json();
-  console.log("SharePoint response:", JSON.stringify(result));
-  if (!resp.ok) throw new Error(result.error?.message || resp.status);
-}
+    const contextResp = await fetch(
+      "https://trefimet.sharepoint.com/sites/mejora/_api/contextinfo",
+      { method: "POST", headers: { "Accept": "application/json;odata=verbose", "Authorization": `Bearer ${token}` }}
+    );
+    const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
+    const resp = await fetch(
+      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_CalidadV1')/items",
+      {
+        method: "POST",
+        headers: {
+          "Accept": "application/json;odata=nometadata",
+          "Content-Type": "application/json;odata=nometadata",
+          "Authorization": `Bearer ${token}`,
+          "X-RequestDigest": digest
+        },
+        body: JSON.stringify(datos)
+      }
+    );
+    const result = await resp.json();
+    console.log("SharePoint response:", JSON.stringify(result));
+    if (!resp.ok) throw new Error(result.error?.message || resp.status);
+  }
 
   async function guardarRegistro() {
+    sessionStorage.removeItem("pendingData");
     const datos = recopilarDatos();
     const registros = JSON.parse(localStorage.getItem("trefiapp_mp") || "[]");
     registros.push(datos);
     localStorage.setItem("trefiapp_mp", JSON.stringify(registros));
-    sessionStorage.setItem("pendingData", JSON.stringify(datos));
 
     await msalInstance.initialize();
     const accounts = msalInstance.getAllAccounts();
 
     if (accounts.length === 0) {
+      sessionStorage.setItem("pendingData", JSON.stringify(datos));
       await msalInstance.loginRedirect({
         scopes: ["https://trefimet.sharepoint.com/AllSites.Write"]
       });
@@ -671,7 +637,6 @@ function recopilarDatos() {
         account: accounts[0]
       });
       await enviarASharePoint(tokenResp.accessToken, datos);
-      sessionStorage.removeItem("pendingData");
       alert("Registro guardado y enviado a SharePoint.");
     } catch(e) {
       console.error(e);
@@ -704,7 +669,7 @@ function recopilarDatos() {
 </script>
 <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/TrefiApp/sw.js');
+    navigator.serviceWorker.getRegistrations().then(r => r.forEach(sw => sw.unregister()));
   }
 </script>
 </body>
