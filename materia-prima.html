@@ -11,329 +11,64 @@
   <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
   <style>
     :root {
-      --negro: #0a0a0a;
-      --gris: #1e1e1e;
-      --gris2: #2a2a2a;
-      --gris3: #333333;
-      --naranja: #e8a020;
-      --blanco: #ffffff;
-      --texto-sec: rgba(255,255,255,0.55);
-      --radio: 10px;
-      --sp1: 8px;
-      --sp2: 16px;
-      --sp3: 24px;
+      --negro: #0a0a0a; --gris: #1e1e1e; --gris2: #2a2a2a; --naranja: #e8a020;
+      --blanco: #ffffff; --texto-sec: rgba(255,255,255,0.55); --radio: 10px;
+      --sp1: 8px; --sp2: 16px; --sp3: 24px;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: var(--negro);
-      display: flex;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .card {
-      background: var(--gris);
-      border-radius: 14px;
-      width: 100%;
-      max-width: 480px;
-      overflow: hidden;
-      border: 1px solid #333;
-    }
-
-    .header {
-      background: var(--negro);
-      border-bottom: 2px solid var(--naranja);
-      padding: var(--sp2) var(--sp3);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .header a {
-      color: var(--texto-sec);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-    }
-
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--negro); display: flex; justify-content: center; padding: 20px; }
+    .card { background: var(--gris); border-radius: 14px; width: 100%; max-width: 480px; overflow: hidden; border: 1px solid #333; }
+    .header { background: var(--negro); border-bottom: 2px solid var(--naranja); padding: var(--sp2) var(--sp3); display: flex; align-items: center; justify-content: space-between; }
+    .header a { color: var(--texto-sec); text-decoration: none; display: flex; align-items: center; }
     .header a:hover { color: var(--naranja); }
-
-    .header h2 {
-      color: var(--blanco);
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
+    .header h2 { color: var(--blanco); font-size: 18px; font-weight: 700; letter-spacing: 1px; }
     .form-body { padding: var(--sp3); }
     .seccion { margin-bottom: var(--sp3); }
-
-    .seccion-title {
-      color: var(--naranja);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: var(--sp2);
-      padding-bottom: var(--sp1);
-      border-bottom: 1px solid #333;
-    }
-
+    .seccion-title { color: var(--naranja); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: var(--sp2); padding-bottom: var(--sp1); border-bottom: 1px solid #333; }
     .field { margin-bottom: var(--sp2); }
-
-    .field label {
-      display: block;
-      color: var(--texto-sec);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .field input[type="text"],
-    .field input[type="number"],
-    .field textarea {
-      width: 100%;
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: 12px var(--sp2);
-      font-size: 15px;
-      color: var(--blanco);
-      transition: border-color 0.2s;
-    }
-
-    .field input:focus,
-    .field textarea:focus {
-      outline: none;
-      border-color: var(--naranja);
-    }
-
+    .field label { display: block; color: var(--texto-sec); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .field input[type="text"], .field input[type="number"], .field textarea { width: 100%; background: var(--gris2); border: 1px solid #3a3a3a; border-radius: var(--radio); padding: 12px var(--sp2); font-size: 15px; color: var(--blanco); transition: border-color 0.2s; }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--naranja); }
     .field textarea { height: 80px; resize: none; }
     .row { display: flex; gap: var(--sp2); }
     .row .field { flex: 1; }
-
-    .radio-group {
-      display: flex;
-      flex-direction: column;
-      gap: var(--sp1);
-    }
-
-    .radio-group label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: 10px var(--sp2);
-      cursor: pointer;
-      color: var(--blanco);
-      font-size: 14px;
-      font-weight: normal;
-      text-transform: none;
-      letter-spacing: 0;
-      transition: all 0.15s;
-    }
-
+    .radio-group { display: flex; flex-direction: column; gap: var(--sp1); }
+    .radio-group label { display: flex; align-items: center; gap: 10px; background: var(--gris2); border: 1px solid #3a3a3a; border-radius: var(--radio); padding: 10px var(--sp2); cursor: pointer; color: var(--blanco); font-size: 14px; font-weight: normal; text-transform: none; letter-spacing: 0; transition: all 0.15s; }
     .radio-group label:hover { border-color: var(--naranja); }
-
-    .radio-group label.selected {
-      border-color: var(--naranja);
-      background: rgba(232,160,32,0.12);
-      color: var(--naranja);
-    }
-
+    .radio-group label.selected { border-color: var(--naranja); background: rgba(232,160,32,0.12); color: var(--naranja); }
     .radio-group input[type="radio"] { display: none; }
-
-    .toggle-wrap {
-      display: flex;
-      align-items: center;
-      gap: var(--sp2);
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: 12px var(--sp2);
-    }
-
+    .toggle-wrap { display: flex; align-items: center; gap: var(--sp2); background: var(--gris2); border: 1px solid #3a3a3a; border-radius: var(--radio); padding: 12px var(--sp2); }
     .toggle-label { flex: 1; color: var(--blanco); font-size: 14px; }
     .toggle-label span { color: var(--naranja); font-weight: 700; font-size: 13px; }
-
-    .toggle-switch {
-      position: relative;
-      width: 52px;
-      height: 28px;
-      flex-shrink: 0;
-    }
-
+    .toggle-switch { position: relative; width: 52px; height: 28px; flex-shrink: 0; }
     .toggle-switch input { display: none; }
-
-    .toggle-slider {
-      position: absolute;
-      inset: 0;
-      background: #444;
-      border-radius: 28px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .toggle-slider:before {
-      content: "";
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      left: 3px;
-      top: 3px;
-      background: white;
-      border-radius: 50%;
-      transition: 0.3s;
-    }
-
+    .toggle-slider { position: absolute; inset: 0; background: #444; border-radius: 28px; cursor: pointer; transition: 0.3s; }
+    .toggle-slider:before { content: ""; position: absolute; width: 22px; height: 22px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.3s; }
     .toggle-switch input:checked + .toggle-slider { background: var(--naranja); }
     .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
-
-    .tol-box {
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: var(--sp2);
-      display: flex;
-      gap: var(--sp2);
-    }
-
+    .tol-box { background: var(--gris2); border: 1px solid #3a3a3a; border-radius: var(--radio); padding: var(--sp2); display: flex; gap: var(--sp2); }
     .tol-col { flex: 1; }
-
-    .tol-col h4 {
-      color: var(--naranja);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: var(--sp1);
-    }
-
-    .tol-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      color: var(--texto-sec);
-      padding: 3px 0;
-    }
-
+    .tol-col h4 { color: var(--naranja); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: var(--sp1); }
+    .tol-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--texto-sec); padding: 3px 0; }
     .tol-row span:last-child { color: var(--blanco); font-weight: 600; }
-
-    .med-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--sp1);
-    }
-
-    .med-col-header {
-      color: var(--naranja);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      text-align: center;
-      padding-bottom: var(--sp1);
-    }
-
-    .med-input {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 6px;
-    }
-
-    .med-input span {
-      color: var(--texto-sec);
-      font-size: 13px;
-      min-width: 22px;
-      text-align: right;
-    }
-
-    .med-input input {
-      flex: 1;
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: 8px;
-      padding: 8px;
-      font-size: 14px;
-      color: var(--blanco);
-      transition: border-color 0.2s;
-    }
-
+    .med-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp1); }
+    .med-col-header { color: var(--naranja); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-align: center; padding-bottom: var(--sp1); }
+    .med-input { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+    .med-input span { color: var(--texto-sec); font-size: 13px; min-width: 22px; text-align: right; }
+    .med-input input { flex: 1; background: var(--gris2); border: 1px solid #3a3a3a; border-radius: 8px; padding: 8px; font-size: 14px; color: var(--blanco); transition: border-color 0.2s; }
     .med-input input:focus { outline: none; border-color: var(--naranja); }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--sp2);
-      margin-bottom: var(--sp2);
-    }
-
-    .stats-box {
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: var(--sp2);
-    }
-
-    .stats-box h4 {
-      color: var(--naranja);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: var(--sp1);
-    }
-
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      padding: 3px 0;
-      border-bottom: 1px solid #333;
-    }
-
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp2); margin-bottom: var(--sp2); }
+    .stats-box { background: var(--gris2); border: 1px solid #3a3a3a; border-radius: var(--radio); padding: var(--sp2); }
+    .stats-box h4 { color: var(--naranja); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: var(--sp1); }
+    .stat-row { display: flex; justify-content: space-between; font-size: 13px; padding: 3px 0; border-bottom: 1px solid #333; }
     .stat-row:last-child { border-bottom: none; }
     .stat-row .slabel { color: var(--texto-sec); }
     .stat-row .sval { color: var(--blanco); font-weight: 600; }
-
-    .file-input-wrap {
-      background: var(--gris2);
-      border: 1px dashed #3a3a3a;
-      border-radius: var(--radio);
-      padding: var(--sp2);
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-
+    .file-input-wrap { background: var(--gris2); border: 1px dashed #3a3a3a; border-radius: var(--radio); padding: var(--sp2); text-align: center; cursor: pointer; transition: border-color 0.2s; }
     .file-input-wrap:hover { border-color: var(--naranja); }
     .file-input-wrap p { color: var(--texto-sec); font-size: 13px; margin-top: 6px; }
     .file-input-wrap input { display: none; }
-
-    .btn-guardar {
-      width: 100%;
-      background: var(--naranja);
-      color: var(--negro);
-      border: none;
-      border-radius: var(--radio);
-      padding: 16px;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: background 0.2s, transform 0.1s;
-      margin-top: var(--sp1);
-    }
-
+    .btn-guardar { width: 100%; background: var(--naranja); color: var(--negro); border: none; border-radius: var(--radio); padding: 16px; font-size: 16px; font-weight: 800; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; transition: background 0.2s, transform 0.1s; margin-top: var(--sp1); }
     .btn-guardar:hover { background: #f0b030; transform: translateY(-1px); }
     .btn-guardar:active { transform: translateY(0); }
     .fecha-text { color: var(--blanco); font-size: 15px; }
@@ -346,65 +81,30 @@
     <h2>Materia Prima</h2>
     <span style="width:24px"></span>
   </div>
-
   <div class="form-body">
     <div class="seccion">
       <div class="seccion-title">Información General</div>
-      <div class="field">
-        <label>Fecha de Registro</label>
-        <div class="fecha-text" id="fechaTexto"></div>
-      </div>
-      <div class="field">
-        <label>Responsable</label>
-        <input type="text" id="responsable" placeholder="Nombre del responsable">
-      </div>
-      <div class="field">
-        <label>Proveedor</label>
-        <div class="radio-group" id="proveedorGroup"></div>
-      </div>
-      <div class="field">
-        <label>Nombre del Producto</label>
-        <input type="text" id="nombreProducto">
-      </div>
+      <div class="field"><label>Fecha de Registro</label><div class="fecha-text" id="fechaTexto"></div></div>
+      <div class="field"><label>Responsable</label><input type="text" id="responsable" placeholder="Nombre del responsable"></div>
+      <div class="field"><label>Proveedor</label><div class="radio-group" id="proveedorGroup"></div></div>
+      <div class="field"><label>Nombre del Producto</label><input type="text" id="nombreProducto"></div>
       <div class="row">
-        <div class="field">
-          <label>N° Fac./Guía</label>
-          <input type="text" id="facGuia">
-        </div>
-        <div class="field">
-          <label>N° OC</label>
-          <input type="number" id="nOC" value="0">
-        </div>
+        <div class="field"><label>N° Fac./Guía</label><input type="text" id="facGuia"></div>
+        <div class="field"><label>N° OC</label><input type="number" id="nOC" value="0"></div>
       </div>
-      <div class="field">
-        <label>Cantidad</label>
-        <input type="number" id="cantidad">
-      </div>
+      <div class="field"><label>Cantidad</label><input type="number" id="cantidad"></div>
     </div>
-
     <div class="seccion">
       <div class="seccion-title">Especificaciones</div>
       <div class="field">
         <div class="toggle-wrap">
           <div class="toggle-label">Tipo: <span id="labelTipo">Tubo</span></div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="toggleTipo">
-            <span class="toggle-slider"></span>
-          </label>
+          <label class="toggle-switch"><input type="checkbox" id="toggleTipo"><span class="toggle-slider"></span></label>
         </div>
       </div>
-      <div class="field">
-        <label>Diámetro</label>
-        <div class="radio-group" id="diametroGroup"></div>
-      </div>
-      <div class="field">
-        <label>Espesor</label>
-        <div class="radio-group" id="espesorGroup"></div>
-      </div>
-      <div class="field">
-        <label>Largo</label>
-        <input type="text" id="largo">
-      </div>
+      <div class="field"><label>Diámetro</label><div class="radio-group" id="diametroGroup"></div></div>
+      <div class="field"><label>Espesor</label><div class="radio-group" id="espesorGroup"></div></div>
+      <div class="field"><label>Largo</label><input type="text" id="largo"></div>
       <div class="tol-box">
         <div class="tol-col">
           <h4>Tolerancia Diámetro</h4>
@@ -418,7 +118,6 @@
         </div>
       </div>
     </div>
-
     <div class="seccion">
       <div class="seccion-title">Mediciones de Materia Prima</div>
       <div class="med-grid">
@@ -443,18 +142,11 @@
           <div class="stat-row"><span class="slabel">Máximo</span><span class="sval" id="statEspMax">-</span></div>
         </div>
       </div>
-      <div class="field">
-        <label>Largo Medido</label>
-        <input type="number" id="largoMedido" step="0.01">
-      </div>
+      <div class="field"><label>Largo Medido</label><input type="number" id="largoMedido" step="0.01"></div>
     </div>
-
     <div class="seccion">
       <div class="seccion-title">Cierre</div>
-      <div class="field">
-        <label>Observaciones</label>
-        <textarea id="observaciones" placeholder="Ingresa observaciones..."></textarea>
-      </div>
+      <div class="field"><label>Observaciones</label><textarea id="observaciones" placeholder="Ingresa observaciones..."></textarea></div>
       <div class="field">
         <label>Datos Adjuntos</label>
         <div class="file-input-wrap" onclick="document.getElementById('adjuntos').click()">
@@ -488,9 +180,7 @@
   document.getElementById("toggleTipo").addEventListener("change", function() {
     tipoActual = this.checked ? "cañeria" : "tubo";
     document.getElementById("labelTipo").textContent = this.checked ? "Cañería" : "Tubo";
-    renderDiametros();
-    renderEspesores();
-    limpiarTolerancia();
+    renderDiametros(); renderEspesores(); limpiarTolerancia();
   });
 
   function renderRadioGroup(containerId, items, name, onChange) {
@@ -508,18 +198,11 @@
     });
   }
 
-  function renderDiametros() {
-    renderRadioGroup("diametroGroup", Object.keys(TOLERANCIAS[tipoActual].diametros), "diametro", actualizarTolerancia);
-  }
-
-  function renderEspesores() {
-    renderRadioGroup("espesorGroup", Object.keys(TOLERANCIAS[tipoActual].espesores), "espesor", actualizarTolerancia);
-  }
+  function renderDiametros() { renderRadioGroup("diametroGroup", Object.keys(TOLERANCIAS[tipoActual].diametros), "diametro", actualizarTolerancia); }
+  function renderEspesores() { renderRadioGroup("espesorGroup", Object.keys(TOLERANCIAS[tipoActual].espesores), "espesor", actualizarTolerancia); }
 
   function limpiarTolerancia() {
-    ["tolDiamMax","tolDiamMin","tolEspMax","tolEspMin"].forEach(id => {
-      document.getElementById(id).textContent = "-";
-    });
+    ["tolDiamMax","tolDiamMin","tolEspMax","tolEspMin"].forEach(id => { document.getElementById(id).textContent = "-"; });
   }
 
   function actualizarTolerancia() {
@@ -537,36 +220,27 @@
   }
 
   for (let i = 1; i <= 10; i++) {
-    document.getElementById("medDiams").innerHTML +=
-      `<div class="med-input"><span>${i}.-</span><input type="number" id="diam${i}" step="0.01" oninput="calcStats()"></div>`;
-    document.getElementById("medEsps").innerHTML +=
-      `<div class="med-input"><span>${i}.-</span><input type="number" id="esp${i}" step="0.01" oninput="calcStats()"></div>`;
+    document.getElementById("medDiams").innerHTML += `<div class="med-input"><span>${i}.-</span><input type="number" id="diam${i}" step="0.01" oninput="calcStats()"></div>`;
+    document.getElementById("medEsps").innerHTML  += `<div class="med-input"><span>${i}.-</span><input type="number" id="esp${i}"  step="0.01" oninput="calcStats()"></div>`;
   }
 
-  function calcStats() {
-    calcGrupo("diam", "statDiam");
-    calcGrupo("esp",  "statEsp");
-  }
+  function calcStats() { calcGrupo("diam","statDiam"); calcGrupo("esp","statEsp"); }
 
   function calcGrupo(prefix, statPrefix) {
     const vals = [];
-    for (let i = 1; i <= 10; i++) {
-      const v = parseFloat(document.getElementById(prefix + i).value);
-      if (!isNaN(v)) vals.push(v);
-    }
-    if (vals.length === 0) return;
-    const prom = vals.reduce((a,b) => a+b, 0) / vals.length;
-    const dev  = Math.sqrt(vals.reduce((a,b) => a + Math.pow(b-prom,2), 0) / vals.length);
-    document.getElementById(statPrefix + "Prom").textContent = prom.toFixed(3);
-    document.getElementById(statPrefix + "Dev").textContent  = dev.toFixed(3);
-    document.getElementById(statPrefix + "Min").textContent  = Math.min(...vals).toFixed(3);
-    document.getElementById(statPrefix + "Max").textContent  = Math.max(...vals).toFixed(3);
+    for (let i = 1; i <= 10; i++) { const v = parseFloat(document.getElementById(prefix+i).value); if (!isNaN(v)) vals.push(v); }
+    if (!vals.length) return;
+    const prom = vals.reduce((a,b)=>a+b,0)/vals.length;
+    const dev  = Math.sqrt(vals.reduce((a,b)=>a+Math.pow(b-prom,2),0)/vals.length);
+    document.getElementById(statPrefix+"Prom").textContent = prom.toFixed(3);
+    document.getElementById(statPrefix+"Dev").textContent  = dev.toFixed(3);
+    document.getElementById(statPrefix+"Min").textContent  = Math.min(...vals).toFixed(3);
+    document.getElementById(statPrefix+"Max").textContent  = Math.max(...vals).toFixed(3);
   }
 
   function mostrarAdjuntos() {
     const files = document.getElementById("adjuntos").files;
-    document.getElementById("adjuntosLabel").textContent =
-      files.length > 0 ? `${files.length} archivo(s) seleccionado(s)` : "Toca para adjuntar foto o archivo";
+    document.getElementById("adjuntosLabel").textContent = files.length > 0 ? `${files.length} archivo(s) seleccionado(s)` : "Toca para adjuntar foto o archivo";
   }
 
   const msalConfig = {
@@ -583,9 +257,38 @@
   function recopilarDatos() {
     const ahora = new Date();
     const datos = {
+      "__metadata": { "type": "SP.Data.TrefiApp_x005f_CalidadV1ListItem" },
       "Title": ahora.toISOString().slice(0,10),
+      "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
       "responsable": document.getElementById("responsable").value,
+      "proveedor": document.querySelector('input[name="proveedor"]:checked')?.value || "",
+      "nombre_producto": document.getElementById("nombreProducto").value,
+      "tipo": tipoActual,
+      "diametro": document.querySelector('input[name="diametro"]:checked')?.value || "",
+      "espesor": document.querySelector('input[name="espesor"]:checked')?.value || "",
+      "largo": document.getElementById("largo").value,
+      "cantidad": parseFloat(document.getElementById("cantidad").value) || 0,
+      "fac_guia": document.getElementById("facGuia").value,
+      "n_oc": document.getElementById("nOC").value,
+      "tol_diam_max": parseFloat(document.getElementById("tolDiamMax").textContent) || 0,
+      "tol_diam_min": parseFloat(document.getElementById("tolDiamMin").textContent) || 0,
+      "tol_esp_max": parseFloat(document.getElementById("tolEspMax").textContent) || 0,
+      "tol_esp_min": parseFloat(document.getElementById("tolEspMin").textContent) || 0,
+      "largo_medido": parseFloat(document.getElementById("largoMedido").value) || 0,
+      "observaciones": document.getElementById("observaciones").value,
     };
+    for (let i = 1; i <= 10; i++) {
+      datos[`diam_${i}`] = parseFloat(document.getElementById("diam"+i).value) || 0;
+      datos[`esp_${i}`]  = parseFloat(document.getElementById("esp"+i).value)  || 0;
+    }
+    datos["diam_promedio"] = parseFloat(document.getElementById("statDiamProm").textContent) || 0;
+    datos["diam_desv_est"] = parseFloat(document.getElementById("statDiamDev").textContent)  || 0;
+    datos["diam_min"]      = parseFloat(document.getElementById("statDiamMin").textContent)  || 0;
+    datos["diam_max"]      = parseFloat(document.getElementById("statDiamMax").textContent)  || 0;
+    datos["esp_promedio"]  = parseFloat(document.getElementById("statEspProm").textContent)  || 0;
+    datos["esp_desv_est"]  = parseFloat(document.getElementById("statEspDev").textContent)   || 0;
+    datos["esp_min"]       = parseFloat(document.getElementById("statEspMin").textContent)   || 0;
+    datos["esp_max"]       = parseFloat(document.getElementById("statEspMax").textContent)   || 0;
     return datos;
   }
 
@@ -600,8 +303,8 @@
       {
         method: "POST",
         headers: {
-          "Accept": "application/json;odata=nometadata",
-          "Content-Type": "application/json;odata=nometadata",
+          "Accept": "application/json;odata=verbose",
+          "Content-Type": "application/json;odata=verbose",
           "Authorization": `Bearer ${token}`,
           "X-RequestDigest": digest
         },
@@ -610,11 +313,10 @@
     );
     const result = await resp.json();
     console.log("SharePoint response:", JSON.stringify(result));
-    if (!resp.ok) throw new Error(result.error?.message || resp.status);
+    if (!resp.ok) throw new Error(result.error?.message?.value || resp.status);
   }
 
   async function guardarRegistro() {
-    sessionStorage.removeItem("pendingData");
     const datos = recopilarDatos();
     const registros = JSON.parse(localStorage.getItem("trefiapp_mp") || "[]");
     registros.push(datos);
@@ -623,19 +325,18 @@
     await msalInstance.initialize();
     const accounts = msalInstance.getAllAccounts();
 
-    if (accounts.length === 0) {
-      sessionStorage.setItem("pendingData", JSON.stringify(datos));
-      await msalInstance.loginRedirect({
-        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"]
-      });
-      return;
-    }
-
     try {
-      const tokenResp = await msalInstance.acquireTokenSilent({
-        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"],
-        account: accounts[0]
-      });
+      let tokenResp;
+      if (accounts.length === 0) {
+        tokenResp = await msalInstance.loginPopup({
+          scopes: ["https://trefimet.sharepoint.com/AllSites.Write"]
+        });
+      } else {
+        tokenResp = await msalInstance.acquireTokenSilent({
+          scopes: ["https://trefimet.sharepoint.com/AllSites.Write"],
+          account: accounts[0]
+        });
+      }
       await enviarASharePoint(tokenResp.accessToken, datos);
       alert("Registro guardado y enviado a SharePoint.");
     } catch(e) {
@@ -645,24 +346,7 @@
     window.location.href = "index.html";
   }
 
-  msalInstance.initialize().then(() => {
-    msalInstance.handleRedirectPromise().then(async resp => {
-      if (resp && resp.accessToken) {
-        const datos = JSON.parse(sessionStorage.getItem("pendingData") || "null");
-        if (datos) {
-          try {
-            await enviarASharePoint(resp.accessToken, datos);
-            sessionStorage.removeItem("pendingData");
-            alert("Registro enviado a SharePoint.");
-          } catch(e) {
-            alert("Error al enviar. Datos guardados localmente.");
-          }
-        }
-        window.location.href = "index.html";
-      }
-    }).catch(e => console.error(e));
-  });
-
+  msalInstance.initialize();
   renderDiametros();
   renderEspesores();
   lucide.createIcons();
