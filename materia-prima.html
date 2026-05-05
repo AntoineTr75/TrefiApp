@@ -261,6 +261,14 @@
     "Title": ahora.toISOString().slice(0,10),
     "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
     "responsable": document.getElementById("responsable").value,
+    "proveedor": document.querySelector('input[name="proveedor"]:checked')?.value || "",
+    "nombre_producto": document.getElementById("nombreProducto").value,
+    "tipo": tipoActual,
+    "diametro": document.querySelector('input[name="diametro"]:checked')?.value || "",
+    "espesor": document.querySelector('input[name="espesor"]:checked')?.value || "",
+    "largo": document.getElementById("largo").value,
+    "fac_guia": document.getElementById("facGuia").value,
+    "cantidad": parseFloat(document.getElementById("cantidad").value) || 0,
   };
 }
 
