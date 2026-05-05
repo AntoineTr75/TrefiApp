@@ -615,15 +615,14 @@
 
   const msalInstance = new msal.PublicClientApplication(msalConfig);
 
-  function recopilarDatos() {
-    const ahora = new Date();
-    const datos = {
-      "__metadata": { "type": "SP.Data.TrefiApp_x005f_CalidadV1ListItem" },
-      "Title": ahora.toISOString().slice(0,10),
-      "responsable": document.getElementById("responsable").value,
-    };
-    return datos;
-  }
+function recopilarDatos() {
+  const ahora = new Date();
+  const datos = {
+    "Title": ahora.toISOString().slice(0,10),
+    "responsable": document.getElementById("responsable").value,
+  };
+  return datos;
+}
 
   async function enviarASharePoint(token, datos) {
   const contextResp = await fetch(
@@ -636,8 +635,8 @@
     {
       method: "POST",
       headers: {
-        "Accept": "application/json;odata=verbose",
-        "Content-Type": "application/json;odata=verbose",
+        "Accept": "application/json;odata=nometadata",
+        "Content-Type": "application/json;odata=nometadata",
         "Authorization": `Bearer ${token}`,
         "X-RequestDigest": digest
       },
