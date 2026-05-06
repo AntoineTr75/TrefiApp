@@ -794,7 +794,7 @@
     );
     const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
     await fetch(
-      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_ProcesosV2')/items",
+      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_Calidad_PP_V2')/items",
       {
         method: "POST",
         headers: {
