@@ -13,7 +13,6 @@
       --negro: #0a0a0a;
       --gris: #1e1e1e;
       --gris2: #2a2a2a;
-      --gris3: #333333;
       --naranja: #e8a020;
       --blanco: #ffffff;
       --texto-sec: rgba(255,255,255,0.55);
@@ -22,90 +21,27 @@
       --sp2: 16px;
       --sp3: 24px;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: var(--negro);
-      display: flex;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .card {
-      background: var(--gris);
-      border-radius: 14px;
-      width: 100%;
-      max-width: 480px;
-      overflow: hidden;
-      border: 1px solid #333;
-    }
-
-    .header {
-      background: var(--negro);
-      border-bottom: 2px solid var(--naranja);
-      padding: var(--sp2) var(--sp3);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--negro); display: flex; justify-content: center; padding: 20px; }
+    .card { background: var(--gris); border-radius: 14px; width: 100%; max-width: 480px; overflow: hidden; border: 1px solid #333; }
+    .header { background: var(--negro); border-bottom: 2px solid var(--naranja); padding: var(--sp2) var(--sp3); display: flex; align-items: center; justify-content: space-between; }
     .header a { color: var(--texto-sec); text-decoration: none; display: flex; align-items: center; }
     .header a:hover { color: var(--naranja); }
     .header h2 { color: var(--blanco); font-size: 18px; font-weight: 700; letter-spacing: 1px; }
-
     .form-body { padding: var(--sp3); }
     .seccion { margin-bottom: var(--sp3); }
-
-    .seccion-title {
-      color: var(--naranja); font-size: 11px; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase;
-      margin-bottom: var(--sp2); padding-bottom: var(--sp1);
-      border-bottom: 1px solid #333;
-    }
-
+    .seccion-title { color: var(--naranja); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: var(--sp2); padding-bottom: var(--sp1); border-bottom: 1px solid #333; }
     .field { margin-bottom: var(--sp2); }
-
-    .field label {
-      display: block; color: var(--texto-sec); font-size: 12px;
-      font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
-    }
-
-    .field input[type="text"],
-    .field input[type="number"],
-    .field textarea {
+    .field label { display: block; color: var(--texto-sec); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .field input[type="text"], .field input[type="number"], .field textarea {
       width: 100%; background: var(--gris2); border: 1px solid #3a3a3a;
       border-radius: var(--radio); padding: 12px var(--sp2);
       font-size: 15px; color: var(--blanco); transition: border-color 0.2s;
     }
-
     .field input:focus, .field textarea:focus { outline: none; border-color: var(--naranja); }
     .field textarea { height: 80px; resize: none; }
     .row { display: flex; gap: var(--sp2); }
     .row .field { flex: 1; }
-
-    .file-input-wrap {
-      background: var(--gris2); border: 1px dashed #3a3a3a;
-      border-radius: var(--radio); padding: var(--sp2);
-      text-align: center; cursor: pointer; transition: border-color 0.2s;
-    }
-    .file-input-wrap:hover { border-color: var(--naranja); }
-    .file-input-wrap p { color: var(--texto-sec); font-size: 13px; margin-top: 6px; }
-    .file-input-wrap input { display: none; }
-
-    .btn-guardar {
-      width: 100%; background: var(--naranja); color: var(--negro);
-      border: none; border-radius: var(--radio); padding: 16px;
-      font-size: 16px; font-weight: 800; cursor: pointer;
-      letter-spacing: 1px; text-transform: uppercase;
-      transition: background 0.2s, transform 0.1s; margin-top: var(--sp1);
-    }
-    .btn-guardar:hover { background: #f0b030; transform: translateY(-1px); }
-    .btn-guardar:active { transform: translateY(0); }
-
-    .fecha-text { color: var(--blanco); font-size: 15px; }
-
     .field select {
       width: 100%; background: var(--gris2); border: 1px solid #3a3a3a;
       border-radius: var(--radio); padding: 12px var(--sp2);
@@ -116,12 +52,7 @@
     }
     .field select:focus { outline: none; border-color: var(--naranja); }
     .field select option { background: var(--gris2); color: var(--blanco); }
-
-    .toggle-wrap {
-      display: flex; align-items: center; gap: var(--sp2);
-      background: var(--gris2); border: 1px solid #3a3a3a;
-      border-radius: var(--radio); padding: 12px var(--sp2);
-    }
+    .toggle-wrap { display: flex; align-items: center; gap: var(--sp2); background: var(--gris2); border: 1px solid #3a3a3a; border-radius: var(--radio); padding: 12px var(--sp2); }
     .toggle-label { flex: 1; color: var(--blanco); font-size: 14px; }
     .toggle-label span { color: var(--naranja); font-weight: 700; font-size: 13px; }
     .toggle-switch { position: relative; width: 52px; height: 28px; flex-shrink: 0; }
@@ -130,6 +61,19 @@
     .toggle-slider:before { content: ""; position: absolute; width: 22px; height: 22px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.3s; }
     .toggle-switch input:checked + .toggle-slider { background: var(--naranja); }
     .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
+    .hidden { display: none !important; }
+    .file-input-wrap { background: var(--gris2); border: 1px dashed #3a3a3a; border-radius: var(--radio); padding: var(--sp2); text-align: center; cursor: pointer; transition: border-color 0.2s; }
+    .file-input-wrap:hover { border-color: var(--naranja); }
+    .file-input-wrap p { color: var(--texto-sec); font-size: 13px; margin-top: 6px; }
+    .file-input-wrap input { display: none; }
+    .file-input-wrap.required-photo { border-color: var(--naranja); border-style: solid; }
+    .file-input-wrap.required-photo p { color: var(--naranja); }
+    .btn-guardar { width: 100%; background: var(--naranja); color: var(--negro); border: none; border-radius: var(--radio); padding: 16px; font-size: 16px; font-weight: 800; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; transition: background 0.2s, transform 0.1s; margin-top: var(--sp1); }
+    .btn-guardar:hover { background: #f0b030; transform: translateY(-1px); }
+    .btn-guardar:active { transform: translateY(0); }
+    .fecha-text { color: var(--blanco); font-size: 15px; }
+    .foto-requerida { background: rgba(232,160,32,0.1); border: 1px solid var(--naranja); border-radius: var(--radio); padding: var(--sp1) var(--sp2); margin-top: 6px; }
+    .foto-requerida p { color: var(--naranja); font-size: 12px; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -142,6 +86,7 @@
 
   <div class="form-body">
 
+    <!-- INFO GENERAL -->
     <div class="seccion">
       <div class="seccion-title">Información General</div>
       <div class="field">
@@ -151,75 +96,269 @@
       <div class="row">
         <div class="field">
           <label>Folio Calidad</label>
-          <input type="text" id="folioCalidad" placeholder="Ej: FC-001">
+          <input type="text" id="folioCalidad" placeholder="FC-001">
         </div>
         <div class="field">
           <label>Última OF</label>
-          <input type="text" id="ultimaOF" placeholder="Ej: OF-123">
+          <input type="number" id="ultimaOF" placeholder="123456">
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label>Código</label>
-          <input type="text" id="codigo" placeholder="Código producto">
+          <label>Código Producto</label>
+          <input type="text" id="codigo" placeholder="Código">
         </div>
         <div class="field">
           <label>OV Asociada</label>
-          <input type="text" id="ovAsociada" placeholder="Ej: OV-456">
+          <input type="number" id="ovAsociada" placeholder="456">
         </div>
       </div>
     </div>
 
+    <!-- IDENTIFICACIÓN DEL PRODUCTO -->
     <div class="seccion">
-      <div class="seccion-title">Especificaciones</div>
-      <div class="field">
-        <label>Lanza</label>
-        <select id="selectLanza">
-          <option value="">— Lanza —</option>
-          <option>OB</option><option>SOB</option><option>UOB</option>
-          <option>TR</option><option>SL</option><option>HL</option>
-        </select>
-      </div>
+      <div class="seccion-title">Identificación del Producto</div>
+
       <div class="row">
         <div class="field">
-          <label>Medida</label>
-          <input type="text" id="medida" placeholder="mm">
+          <label>Lanza</label>
+          <select id="selectLanza" onchange="actualizarMedidas()">
+            <option value="">— Lanza —</option>
+            <option>OB</option><option>SOB</option><option>UOB</option>
+            <option>TR</option><option>HL</option><option>SL</option>
+            <option>KL</option><option>CX</option><option>OXF</option><option>Tubo</option>
+          </select>
         </div>
         <div class="field">
-          <label>Largo</label>
-          <select id="selectLargo">
-            <option value="">— Largo —</option>
-            <option>3000</option><option>4000</option><option>5000</option>
-            <option>5700</option><option>6000</option>
+          <label>Medida</label>
+          <select id="selectMedida">
+            <option value="">— Medida —</option>
           </select>
         </div>
       </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Largo</label>
+          <select id="selectLargo" onchange="toggleOtroLargo()">
+            <option value="">— Largo —</option>
+            <option>3000</option><option>4000</option><option>5000</option>
+            <option>5700</option><option>6000</option><option>Otro</option>
+          </select>
+        </div>
+        <div class="field" id="campoOtroLargo" style="display:none">
+          <label>Largo Personalizado</label>
+          <input type="text" id="otroLargo" placeholder="mm">
+        </div>
+      </div>
+
       <div class="field">
         <div class="toggle-wrap">
           <div class="toggle-label">Ceramizado: <span id="labelCeramizado">No</span></div>
           <label class="toggle-switch">
-            <input type="checkbox" id="toggleCeramizado" onchange="
-              document.getElementById('labelCeramizado').textContent = this.checked ? 'Sí' : 'No'">
+            <input type="checkbox" id="toggleCeramizado" onchange="toggleCeramizado()">
             <span class="toggle-slider"></span>
           </label>
         </div>
       </div>
+
       <div class="field">
         <label>Conexión</label>
-        <input type="text" id="conexion" placeholder="Ej: OB 1/4x">
+        <select id="selectConexion" onchange="actualizarConexion()">
+          <option value="">— Conexión —</option>
+          <option>Lisa</option>
+          <option>FCT</option>
+          <option>Hilo-Copla</option>
+          <option>Niple</option>
+          <option>Reducción</option>
+        </select>
       </div>
+
       <div class="row">
         <div class="field">
           <label>Cantidad</label>
-          <input type="number" id="cantidad" placeholder="">
+          <input type="number" id="cantidad" placeholder="0">
         </div>
         <div class="field">
-          <label>Por Liberar</label>
-          <input type="number" id="porLiberar" placeholder="">
+          <label>Pendiente por Liberar</label>
+          <input type="number" id="porLiberar" placeholder="0">
         </div>
       </div>
     </div>
 
+    <!-- CONTROL DE CALIDAD - CUALITATIVO -->
+    <div class="seccion">
+      <div class="seccion-title">Control de Calidad — Cualitativo</div>
+
+      <div class="field">
+        <label>Jabón</label>
+        <select id="jabon">
+          <option value="">— Selecciona —</option>
+          <option>Bajo</option><option>Medio</option><option>Alto</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Soluble</label>
+        <select id="soluble">
+          <option value="">— Selecciona —</option>
+          <option>Sin soluble</option><option>Con soluble</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Rayadura</label>
+        <select id="rayadura" onchange="checkFotoRequerida()">
+          <option value="">— Selecciona —</option>
+          <option>Sin rayadura</option><option>Leve</option><option>Severa</option>
+        </select>
+        <div id="fotoRayadura" class="foto-requerida hidden">
+          <p>⚠ Se requiere foto de la rayadura</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Fisura</label>
+        <select id="fisura" onchange="checkFotoRequerida()">
+          <option value="">— Selecciona —</option>
+          <option>Sin fisura</option><option>Con fisura</option>
+        </select>
+        <div id="fotoFisura" class="foto-requerida hidden">
+          <p>⚠ Se requiere foto de la fisura</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Oxidación</label>
+        <select id="oxidacion" onchange="checkFotoRequerida()">
+          <option value="">— Selecciona —</option>
+          <option>Sin oxidación</option><option>Oxidación leve</option><option>Oxidación severa</option>
+        </select>
+        <div id="fotoOxidacion" class="foto-requerida hidden">
+          <p>⚠ Se requiere foto de la oxidación</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Obstrucción</label>
+        <select id="obstruccion" onchange="checkFotoRequerida()">
+          <option value="">— Selecciona —</option>
+          <option>Sin obstrucción</option><option>Con obstrucción</option>
+        </select>
+        <div id="fotoObstruccion" class="foto-requerida hidden">
+          <p>⚠ Se requiere foto de la obstrucción</p>
+        </div>
+      </div>
+
+      <!-- CERÁMICA (solo si ceramizado = Sí) -->
+      <div id="seccionCeramica" class="hidden">
+        <div class="field">
+          <label>Adherencia Cerámica</label>
+          <select id="adherencia">
+            <option value="">— Selecciona —</option>
+            <option>Alta</option><option>Media</option><option>Baja</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Extremos Cerámica</label>
+          <select id="extremosCeramica">
+            <option value="">— Selecciona —</option>
+            <option>Libres</option><option>Cubiertos</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Humedad Cerámica</label>
+          <select id="humedad">
+            <option value="">— Selecciona —</option>
+            <option>Sin humedad</option><option>Con humedad</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Cámara Cerámica</label>
+          <select id="camaraCeramica">
+            <option value="">— Selecciona —</option>
+            <option>Sin cámara</option><option>Cámara parcial</option><option>Cámara total</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- CONEXIÓN ESPECÍFICA -->
+      <div id="seccionFCT" class="hidden">
+        <div class="field">
+          <label>Estado FCT</label>
+          <select id="estadoFCT">
+            <option value="">— Selecciona —</option>
+            <option>Firme</option><option>Suelto</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="seccionHiloCoplaNiple" class="hidden">
+        <div class="field">
+          <label id="labelHilo">Hilo</label>
+          <select id="estadoHilo">
+            <option value="">— Selecciona —</option>
+            <option>Completo</option><option>Dañado</option>
+          </select>
+        </div>
+        <div class="field">
+          <label id="labelRosca">Rosca</label>
+          <select id="estadoRosca">
+            <option value="">— Selecciona —</option>
+            <option>Firme</option><option>Suelta</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Extremos</label>
+        <select id="extremos">
+          <option value="">— Selecciona —</option>
+          <option>Liso</option><option>Cortante</option><option>Con rebaba</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- CONTROL DE CALIDAD - CUANTITATIVO -->
+    <div class="seccion">
+      <div class="seccion-title">Control de Calidad — Cuantitativo</div>
+
+      <div class="row">
+        <div class="field">
+          <label>Diámetro</label>
+          <input type="text" id="diametro" placeholder="mm">
+        </div>
+        <div class="field">
+          <label>Largo Medido</label>
+          <input type="text" id="largoMedido" placeholder="mm">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Prof. Cámara</label>
+          <input type="text" id="profCamara" placeholder="mm">
+        </div>
+        <div class="field">
+          <label>N° Cámaras</label>
+          <input type="text" id="nCamaras" placeholder="0">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>N° Doblez</label>
+          <input type="text" id="nDoblez" placeholder="0">
+        </div>
+        <div class="field">
+          <label>N° Hilos</label>
+          <input type="text" id="nHilos" placeholder="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- CIERRE -->
     <div class="seccion">
       <div class="seccion-title">Cierre</div>
       <div class="field">
@@ -227,8 +366,8 @@
         <textarea id="observaciones" placeholder="Ingresa observaciones..."></textarea>
       </div>
       <div class="field">
-        <label>Datos Adjuntos</label>
-        <div class="file-input-wrap" onclick="document.getElementById('adjuntos').click()">
+        <label id="labelAdjuntos">Datos Adjuntos</label>
+        <div class="file-input-wrap" id="wrapAdjuntos" onclick="document.getElementById('adjuntos').click()">
           <i data-lucide="paperclip" style="color:#e8a020; width:24px; height:24px;"></i>
           <p id="adjuntosLabel">Toca para adjuntar foto o archivo</p>
           <input type="file" id="adjuntos" multiple accept="image/*,.pdf,.xlsx,.docx" onchange="mostrarAdjuntos()">
@@ -245,6 +384,84 @@
   document.getElementById("fechaTexto").textContent =
     ahora.toLocaleDateString("es-CL") + " " +
     ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"});
+
+  const MEDIDAS = {
+    "OB":   ["1/4","3/8","1/2"],
+    "SOB":  ["1/4","3/8","1/2","5/8","3/4"],
+    "UOB":  ["1/2","3/4"],
+    "TR":   ["25","38","75"],
+    "HL":   ["3/8","1/2","3/4"],
+    "SL":   ["1/4","3/8","1/2"],
+    "KL":   ["1/4","3/8","1/2"],
+    "CX":   ["3/8","1/2","3/4","1"],
+    "OXF":  ["5/8","3/4"],
+    "Tubo": ["1/4","3/8","1/2","5/8","3/4"],
+  };
+
+  function actualizarMedidas() {
+    const lanza = document.getElementById("selectLanza").value;
+    const sel = document.getElementById("selectMedida");
+    sel.innerHTML = `<option value="">— Medida —</option>`;
+    (MEDIDAS[lanza] || []).forEach(m => {
+      const o = document.createElement("option");
+      o.value = o.textContent = m;
+      sel.appendChild(o);
+    });
+  }
+
+  function toggleOtroLargo() {
+    const val = document.getElementById("selectLargo").value;
+    document.getElementById("campoOtroLargo").style.display = val === "Otro" ? "block" : "none";
+  }
+
+  function toggleCeramizado() {
+    const checked = document.getElementById("toggleCeramizado").checked;
+    document.getElementById("labelCeramizado").textContent = checked ? "Sí" : "No";
+    document.getElementById("seccionCeramica").classList.toggle("hidden", !checked);
+  }
+
+  function actualizarConexion() {
+    const val = document.getElementById("selectConexion").value;
+    document.getElementById("seccionFCT").classList.toggle("hidden", val !== "FCT");
+    const hiloNiple = val === "Hilo-Copla" || val === "Niple";
+    document.getElementById("seccionHiloCoplaNiple").classList.toggle("hidden", !hiloNiple);
+    if (hiloNiple) {
+      document.getElementById("labelHilo").textContent = val === "Niple" ? "Niple" : "Hilo";
+      document.getElementById("labelRosca").textContent = val === "Niple" ? "Niple estado" : "Rosca";
+      const sel = document.getElementById("estadoHilo");
+      sel.innerHTML = `<option value="">— Selecciona —</option>`;
+      if (val === "Niple") {
+        ["Firme","Suelto"].forEach(o => { const opt = document.createElement("option"); opt.value = opt.textContent = o; sel.appendChild(opt); });
+      } else {
+        ["Completo","Dañado"].forEach(o => { const opt = document.createElement("option"); opt.value = opt.textContent = o; sel.appendChild(opt); });
+      }
+    }
+  }
+
+  function checkFotoRequerida() {
+    const checks = [
+      { sel: "rayadura",   div: "fotoRayadura",   vals: ["Leve","Severa"] },
+      { sel: "fisura",     div: "fotoFisura",      vals: ["Con fisura"] },
+      { sel: "oxidacion",  div: "fotoOxidacion",   vals: ["Oxidación leve","Oxidación severa"] },
+      { sel: "obstruccion",div: "fotoObstruccion", vals: ["Con obstrucción"] },
+    ];
+    let requierePhoto = false;
+    checks.forEach(c => {
+      const val = document.getElementById(c.sel).value;
+      const show = c.vals.includes(val);
+      document.getElementById(c.div).classList.toggle("hidden", !show);
+      if (show) requierePhoto = true;
+    });
+    const wrap = document.getElementById("wrapAdjuntos");
+    const label = document.getElementById("adjuntosLabel");
+    if (requierePhoto) {
+      wrap.classList.add("required-photo");
+      label.textContent = "📷 Foto requerida por condición detectada";
+    } else {
+      wrap.classList.remove("required-photo");
+      label.textContent = "Toca para adjuntar foto o archivo";
+    }
+  }
 
   function mostrarAdjuntos() {
     const files = document.getElementById("adjuntos").files;
@@ -265,6 +482,9 @@
 
   function recopilarDatos() {
     const ahora = new Date();
+    const largo = document.getElementById("selectLargo").value === "Otro"
+      ? document.getElementById("otroLargo").value
+      : document.getElementById("selectLargo").value;
     return {
       "__metadata": { "type": "SP.Data.TrefiApp_x005f_Calidad_x005f_PP_x005f_V1ListItem" },
       "Title": ahora.toISOString().slice(0,10),
@@ -273,8 +493,8 @@
       "ultima_of": document.getElementById("ultimaOF").value,
       "ov_asociada": document.getElementById("ovAsociada").value,
       "lanza": document.getElementById("selectLanza").value,
-      "medida": document.getElementById("medida").value,
-      "largo": document.getElementById("selectLargo").value,
+      "medida": document.getElementById("selectMedida").value,
+      "largo": largo,
       "ceramizado": document.getElementById("toggleCeramizado").checked ? "Sí" : "No",
     };
   }
