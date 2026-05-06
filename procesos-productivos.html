@@ -776,7 +776,7 @@
   function recopilarDatos() {
     const ahora = new Date();
     return {
-      "__metadata": { "type": "SP.Data.TrefiApp_x005f_ProcesosV1ListItem" },
+      "__metadata": { "type": "SP.Data.TrefiApp_x005f_ProcesosV2ListItem" },
       "Title": ahora.toISOString().slice(0,10),
       "fecha": ahora.toISOString().slice(0,10),
       "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
@@ -795,7 +795,7 @@
     );
     const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
     await fetch(
-      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_ProcesosV1')/items",
+      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_ProcesosV2')/items",
       {
         method: "POST",
         headers: {
