@@ -86,7 +86,6 @@
 
   <div class="form-body">
 
-    <!-- INFO GENERAL -->
     <div class="seccion">
       <div class="seccion-title">Información General</div>
       <div class="field">
@@ -115,10 +114,8 @@
       </div>
     </div>
 
-    <!-- IDENTIFICACIÓN DEL PRODUCTO -->
     <div class="seccion">
       <div class="seccion-title">Identificación del Producto</div>
-
       <div class="row">
         <div class="field">
           <label>Lanza</label>
@@ -136,7 +133,6 @@
           </select>
         </div>
       </div>
-
       <div class="row">
         <div class="field">
           <label>Largo</label>
@@ -151,7 +147,6 @@
           <input type="text" id="otroLargo" placeholder="mm">
         </div>
       </div>
-
       <div class="field">
         <div class="toggle-wrap">
           <div class="toggle-label">Ceramizado: <span id="labelCeramizado">No</span></div>
@@ -161,19 +156,14 @@
           </label>
         </div>
       </div>
-
       <div class="field">
         <label>Conexión</label>
         <select id="selectConexion" onchange="actualizarConexion()">
           <option value="">— Conexión —</option>
-          <option>Lisa</option>
-          <option>FCT</option>
-          <option>Hilo-Copla</option>
-          <option>Niple</option>
-          <option>Reducción</option>
+          <option>Lisa</option><option>FCT</option>
+          <option>Hilo-Copla</option><option>Niple</option><option>Reducción</option>
         </select>
       </div>
-
       <div class="row">
         <div class="field">
           <label>Cantidad</label>
@@ -186,10 +176,8 @@
       </div>
     </div>
 
-    <!-- CONTROL DE CALIDAD - CUALITATIVO -->
     <div class="seccion">
       <div class="seccion-title">Control de Calidad — Cualitativo</div>
-
       <div class="field">
         <label>Jabón</label>
         <select id="jabon">
@@ -197,7 +185,6 @@
           <option>Bajo</option><option>Medio</option><option>Alto</option>
         </select>
       </div>
-
       <div class="field">
         <label>Soluble</label>
         <select id="soluble">
@@ -205,52 +192,39 @@
           <option>Sin soluble</option><option>Con soluble</option>
         </select>
       </div>
-
       <div class="field">
         <label>Rayadura</label>
         <select id="rayadura" onchange="checkFotoRequerida()">
           <option value="">— Selecciona —</option>
           <option>Sin rayadura</option><option>Leve</option><option>Severa</option>
         </select>
-        <div id="fotoRayadura" class="foto-requerida hidden">
-          <p>⚠ Se requiere foto de la rayadura</p>
-        </div>
+        <div id="fotoRayadura" class="foto-requerida hidden"><p>⚠ Se requiere foto de la rayadura</p></div>
       </div>
-
       <div class="field">
         <label>Fisura</label>
         <select id="fisura" onchange="checkFotoRequerida()">
           <option value="">— Selecciona —</option>
           <option>Sin fisura</option><option>Con fisura</option>
         </select>
-        <div id="fotoFisura" class="foto-requerida hidden">
-          <p>⚠ Se requiere foto de la fisura</p>
-        </div>
+        <div id="fotoFisura" class="foto-requerida hidden"><p>⚠ Se requiere foto de la fisura</p></div>
       </div>
-
       <div class="field">
         <label>Oxidación</label>
         <select id="oxidacion" onchange="checkFotoRequerida()">
           <option value="">— Selecciona —</option>
           <option>Sin oxidación</option><option>Oxidación leve</option><option>Oxidación severa</option>
         </select>
-        <div id="fotoOxidacion" class="foto-requerida hidden">
-          <p>⚠ Se requiere foto de la oxidación</p>
-        </div>
+        <div id="fotoOxidacion" class="foto-requerida hidden"><p>⚠ Se requiere foto de la oxidación</p></div>
       </div>
-
       <div class="field">
         <label>Obstrucción</label>
         <select id="obstruccion" onchange="checkFotoRequerida()">
           <option value="">— Selecciona —</option>
           <option>Sin obstrucción</option><option>Con obstrucción</option>
         </select>
-        <div id="fotoObstruccion" class="foto-requerida hidden">
-          <p>⚠ Se requiere foto de la obstrucción</p>
-        </div>
+        <div id="fotoObstruccion" class="foto-requerida hidden"><p>⚠ Se requiere foto de la obstrucción</p></div>
       </div>
 
-      <!-- CERÁMICA (solo si ceramizado = Sí) -->
       <div id="seccionCeramica" class="hidden">
         <div class="field">
           <label>Adherencia Cerámica</label>
@@ -282,7 +256,6 @@
         </div>
       </div>
 
-      <!-- CONEXIÓN ESPECÍFICA -->
       <div id="seccionFCT" class="hidden">
         <div class="field">
           <label>Estado FCT</label>
@@ -317,13 +290,10 @@
           <option>Liso</option><option>Cortante</option><option>Con rebaba</option>
         </select>
       </div>
-
     </div>
 
-    <!-- CONTROL DE CALIDAD - CUANTITATIVO -->
     <div class="seccion">
       <div class="seccion-title">Control de Calidad — Cuantitativo</div>
-
       <div class="row">
         <div class="field">
           <label>Diámetro</label>
@@ -334,7 +304,6 @@
           <input type="text" id="largoMedido" placeholder="mm">
         </div>
       </div>
-
       <div class="row">
         <div class="field">
           <label>Prof. Cámara</label>
@@ -345,7 +314,6 @@
           <input type="text" id="nCamaras" placeholder="0">
         </div>
       </div>
-
       <div class="row">
         <div class="field">
           <label>N° Doblez</label>
@@ -358,7 +326,6 @@
       </div>
     </div>
 
-    <!-- CIERRE -->
     <div class="seccion">
       <div class="seccion-title">Cierre</div>
       <div class="field">
@@ -366,7 +333,7 @@
         <textarea id="observaciones" placeholder="Ingresa observaciones..."></textarea>
       </div>
       <div class="field">
-        <label id="labelAdjuntos">Datos Adjuntos</label>
+        <label>Datos Adjuntos</label>
         <div class="file-input-wrap" id="wrapAdjuntos" onclick="document.getElementById('adjuntos').click()">
           <i data-lucide="paperclip" style="color:#e8a020; width:24px; height:24px;"></i>
           <p id="adjuntosLabel">Toca para adjuntar foto o archivo</p>
@@ -398,6 +365,13 @@
     "Tubo": ["1/4","3/8","1/2","5/8","3/4"],
   };
 
+  const CHECKS_FOTO = [
+    { sel: "rayadura",    div: "fotoRayadura",   vals: ["Leve","Severa"] },
+    { sel: "fisura",      div: "fotoFisura",      vals: ["Con fisura"] },
+    { sel: "oxidacion",   div: "fotoOxidacion",   vals: ["Oxidación leve","Oxidación severa"] },
+    { sel: "obstruccion", div: "fotoObstruccion", vals: ["Con obstrucción"] },
+  ];
+
   function actualizarMedidas() {
     const lanza = document.getElementById("selectLanza").value;
     const sel = document.getElementById("selectMedida");
@@ -427,26 +401,17 @@
     document.getElementById("seccionHiloCoplaNiple").classList.toggle("hidden", !hiloNiple);
     if (hiloNiple) {
       document.getElementById("labelHilo").textContent = val === "Niple" ? "Niple" : "Hilo";
-      document.getElementById("labelRosca").textContent = val === "Niple" ? "Niple estado" : "Rosca";
+      document.getElementById("labelRosca").textContent = val === "Niple" ? "Estado Niple" : "Rosca";
       const sel = document.getElementById("estadoHilo");
       sel.innerHTML = `<option value="">— Selecciona —</option>`;
-      if (val === "Niple") {
-        ["Firme","Suelto"].forEach(o => { const opt = document.createElement("option"); opt.value = opt.textContent = o; sel.appendChild(opt); });
-      } else {
-        ["Completo","Dañado"].forEach(o => { const opt = document.createElement("option"); opt.value = opt.textContent = o; sel.appendChild(opt); });
-      }
+      const opciones = val === "Niple" ? ["Firme","Suelto"] : ["Completo","Dañado"];
+      opciones.forEach(o => { const opt = document.createElement("option"); opt.value = opt.textContent = o; sel.appendChild(opt); });
     }
   }
 
   function checkFotoRequerida() {
-    const checks = [
-      { sel: "rayadura",   div: "fotoRayadura",   vals: ["Leve","Severa"] },
-      { sel: "fisura",     div: "fotoFisura",      vals: ["Con fisura"] },
-      { sel: "oxidacion",  div: "fotoOxidacion",   vals: ["Oxidación leve","Oxidación severa"] },
-      { sel: "obstruccion",div: "fotoObstruccion", vals: ["Con obstrucción"] },
-    ];
     let requierePhoto = false;
-    checks.forEach(c => {
+    CHECKS_FOTO.forEach(c => {
       const val = document.getElementById(c.sel).value;
       const show = c.vals.includes(val);
       document.getElementById(c.div).classList.toggle("hidden", !show);
@@ -459,7 +424,8 @@
       label.textContent = "📷 Foto requerida por condición detectada";
     } else {
       wrap.classList.remove("required-photo");
-      label.textContent = "Toca para adjuntar foto o archivo";
+      if (document.getElementById("adjuntos").files.length === 0)
+        label.textContent = "Toca para adjuntar foto o archivo";
     }
   }
 
@@ -521,6 +487,14 @@
   }
 
   async function guardarRegistro() {
+    const requierePhoto = CHECKS_FOTO.some(c => c.vals.includes(document.getElementById(c.sel).value));
+    const tieneArchivo = document.getElementById("adjuntos").files.length > 0;
+    if (requierePhoto && !tieneArchivo) {
+      alert("Debes adjuntar una foto antes de guardar. Se detectó una condición que lo requiere.");
+      document.getElementById("wrapAdjuntos").scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
     const datos = recopilarDatos();
     const registros = JSON.parse(localStorage.getItem("trefiapp_pt") || "[]");
     registros.push(datos);
