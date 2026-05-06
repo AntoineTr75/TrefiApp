@@ -54,263 +54,104 @@
       z-index: 10;
     }
 
-    .header a {
-      color: var(--texto-sec);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-    }
-
+    .header a { color: var(--texto-sec); text-decoration: none; display: flex; align-items: center; }
     .header a:hover { color: var(--naranja); }
-
-    .header h2 {
-      color: var(--blanco);
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
+    .header h2 { color: var(--blanco); font-size: 18px; font-weight: 700; letter-spacing: 1px; }
 
     .form-body { padding: var(--sp3); }
-
     .seccion { margin-bottom: var(--sp3); }
 
     .seccion-title {
-      color: var(--naranja);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: var(--sp2);
-      padding-bottom: var(--sp1);
+      color: var(--naranja); font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: var(--sp2); padding-bottom: var(--sp1);
       border-bottom: 1px solid #333;
     }
 
     .field { margin-bottom: var(--sp2); }
 
     .field label {
-      display: block;
-      color: var(--texto-sec);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      display: block; color: var(--texto-sec); font-size: 12px;
+      font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
     }
 
     .field input[type="text"],
     .field input[type="number"],
     .field textarea {
-      width: 100%;
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: 12px var(--sp2);
-      font-size: 15px;
-      color: var(--blanco);
-      transition: border-color 0.2s;
+      width: 100%; background: var(--gris2); border: 1px solid #3a3a3a;
+      border-radius: var(--radio); padding: 12px var(--sp2);
+      font-size: 15px; color: var(--blanco); transition: border-color 0.2s;
     }
 
-    .field input:focus,
-    .field textarea:focus {
-      outline: none;
-      border-color: var(--naranja);
-    }
-
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--naranja); }
     .field textarea { height: 80px; resize: none; }
-
     .row { display: flex; gap: var(--sp2); }
     .row .field { flex: 1; }
 
-    /* Radio groups */
-    .radio-group {
-      display: flex;
-      flex-direction: column;
-      gap: var(--sp1);
-    }
-
+    .radio-group { display: flex; flex-direction: column; gap: var(--sp1); }
     .radio-group label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: 10px var(--sp2);
-      cursor: pointer;
-      color: var(--blanco);
-      font-size: 14px;
-      font-weight: normal;
-      text-transform: none;
-      letter-spacing: 0;
-      transition: all 0.15s;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--gris2); border: 1px solid #3a3a3a;
+      border-radius: var(--radio); padding: 10px var(--sp2);
+      cursor: pointer; color: var(--blanco); font-size: 14px;
+      font-weight: normal; text-transform: none; letter-spacing: 0; transition: all 0.15s;
     }
-
     .radio-group label:hover { border-color: var(--naranja); }
-    .radio-group label.selected {
-      border-color: var(--naranja);
-      background: rgba(232,160,32,0.12);
-      color: var(--naranja);
-    }
+    .radio-group label.selected { border-color: var(--naranja); background: rgba(232,160,32,0.12); color: var(--naranja); }
     .radio-group input[type="radio"] { display: none; }
 
-    /* Radio grid 2 cols */
-    .radio-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--sp1);
-    }
-
-    .radio-grid label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: 10px 12px;
-      cursor: pointer;
-      color: var(--blanco);
-      font-size: 14px;
-      font-weight: normal;
-      text-transform: none;
-      letter-spacing: 0;
-      transition: all 0.15s;
-    }
-
-    .radio-grid label:hover { border-color: var(--naranja); }
-    .radio-grid label.selected {
-      border-color: var(--naranja);
-      background: rgba(232,160,32,0.12);
-      color: var(--naranja);
-    }
-    .radio-grid input[type="radio"] { display: none; }
-
-    /* Toggle */
     .toggle-wrap {
-      display: flex;
-      align-items: center;
-      gap: var(--sp2);
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: 12px var(--sp2);
+      display: flex; align-items: center; gap: var(--sp2);
+      background: var(--gris2); border: 1px solid #3a3a3a;
+      border-radius: var(--radio); padding: 12px var(--sp2);
     }
-
     .toggle-label { flex: 1; color: var(--blanco); font-size: 14px; }
     .toggle-label span { color: var(--naranja); font-weight: 700; font-size: 13px; }
-
-    .toggle-switch {
-      position: relative;
-      width: 52px;
-      height: 28px;
-      flex-shrink: 0;
-    }
+    .toggle-switch { position: relative; width: 52px; height: 28px; flex-shrink: 0; }
     .toggle-switch input { display: none; }
-    .toggle-slider {
-      position: absolute;
-      inset: 0;
-      background: #444;
-      border-radius: 28px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .toggle-slider:before {
-      content: "";
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      left: 3px;
-      top: 3px;
-      background: white;
-      border-radius: 50%;
-      transition: 0.3s;
-    }
+    .toggle-slider { position: absolute; inset: 0; background: #444; border-radius: 28px; cursor: pointer; transition: 0.3s; }
+    .toggle-slider:before { content: ""; position: absolute; width: 22px; height: 22px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.3s; }
     .toggle-switch input:checked + .toggle-slider { background: var(--naranja); }
     .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
 
-    /* Slider */
-    .slider-wrap {
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: 12px var(--sp2);
-    }
-    .slider-wrap input[type="range"] {
-      width: 100%;
-      accent-color: var(--naranja);
-    }
-    .slider-val {
-      text-align: center;
-      color: var(--naranja);
-      font-weight: 700;
-      font-size: 16px;
-      margin-top: 4px;
-    }
+    .slider-wrap { background: var(--gris2); border: 1px solid #3a3a3a; border-radius: var(--radio); padding: 12px var(--sp2); }
+    .slider-wrap input[type="range"] { width: 100%; accent-color: var(--naranja); }
+    .slider-val { text-align: center; color: var(--naranja); font-weight: 700; font-size: 16px; margin-top: 4px; }
 
-    /* Dropdown estilizado */
     .field select {
-      width: 100%;
-      background: var(--gris2);
-      border: 1px solid #3a3a3a;
-      border-radius: var(--radio);
-      padding: 12px var(--sp2);
-      font-size: 15px;
-      color: var(--blanco);
-      transition: border-color 0.2s;
-      appearance: none;
-      -webkit-appearance: none;
+      width: 100%; background: var(--gris2); border: 1px solid #3a3a3a;
+      border-radius: var(--radio); padding: 12px var(--sp2);
+      font-size: 15px; color: var(--blanco); transition: border-color 0.2s;
+      appearance: none; -webkit-appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e8a020' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      cursor: pointer;
+      background-repeat: no-repeat; background-position: right 12px center; cursor: pointer;
     }
-    .field select:focus {
-      outline: none;
-      border-color: var(--naranja);
-    }
-    .field select option {
-      background: var(--gris2);
-      color: var(--blanco);
-    }
+    .field select:focus { outline: none; border-color: var(--naranja); }
+    .field select option { background: var(--gris2); color: var(--blanco); }
 
-    /* Campos dinámicos ocultos */
     .campos-proceso { display: none; }
     .campos-proceso.visible { display: block; }
 
-    /* File input */
     .file-input-wrap {
-      background: var(--gris2);
-      border: 1px dashed #3a3a3a;
-      border-radius: var(--radio);
-      padding: var(--sp2);
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s;
+      background: var(--gris2); border: 1px dashed #3a3a3a;
+      border-radius: var(--radio); padding: var(--sp2);
+      text-align: center; cursor: pointer; transition: border-color 0.2s;
     }
     .file-input-wrap:hover { border-color: var(--naranja); }
     .file-input-wrap p { color: var(--texto-sec); font-size: 13px; margin-top: 6px; }
     .file-input-wrap input { display: none; }
 
     .btn-guardar {
-      width: 100%;
-      background: var(--naranja);
-      color: var(--negro);
-      border: none;
-      border-radius: var(--radio);
-      padding: 16px;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: background 0.2s, transform 0.1s;
-      margin-top: var(--sp1);
+      width: 100%; background: var(--naranja); color: var(--negro);
+      border: none; border-radius: var(--radio); padding: 16px;
+      font-size: 16px; font-weight: 800; cursor: pointer;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: background 0.2s, transform 0.1s; margin-top: var(--sp1);
     }
     .btn-guardar:hover { background: #f0b030; transform: translateY(-1px); }
     .btn-guardar:active { transform: translateY(0); }
 
     .fecha-text { color: var(--blanco); font-size: 15px; }
-
     .hidden { display: none !important; }
   </style>
 </head>
@@ -324,7 +165,6 @@
 
   <div class="form-body">
 
-    <!-- INFO GENERAL -->
     <div class="seccion">
       <div class="seccion-title">Información General</div>
       <div class="field">
@@ -333,7 +173,6 @@
       </div>
     </div>
 
-    <!-- SELECTOR DE PROCESO -->
     <div class="seccion">
       <div class="seccion-title">Proceso</div>
       <div class="field">
@@ -343,20 +182,15 @@
       </div>
     </div>
 
-    <!-- CAMPOS COMUNES (visibles tras elegir proceso) -->
     <div id="camposComunes" class="hidden">
 
-      <!-- MÁQUINA (dinámica por proceso) -->
       <div class="seccion" id="seccionMaquina">
         <div class="seccion-title" id="labelMaquina">Máquina</div>
         <div class="field">
-          <select id="selectMaquina">
-            <option value="">— Selecciona —</option>
-          </select>
+          <select id="selectMaquina"><option value="">— Selecciona —</option></select>
         </div>
       </div>
 
-      <!-- OF + OPERADOR -->
       <div class="seccion">
         <div class="seccion-title">Identificación</div>
         <div class="field">
@@ -365,21 +199,16 @@
         </div>
         <div class="field">
           <label>Operador</label>
-          <select id="selectOperador">
-            <option value="">— Selecciona operador —</option>
-          </select>
+          <select id="selectOperador"><option value="">— Selecciona operador —</option></select>
         </div>
       </div>
 
-      <!-- LANZA + MEDIDA -->
       <div class="seccion" id="seccionLanza">
         <div class="seccion-title">Lanza y Medida</div>
         <div class="row">
           <div class="field">
             <label>Lanza</label>
-            <select id="selectLanza">
-              <option value="">— Lanza —</option>
-            </select>
+            <select id="selectLanza"><option value="">— Lanza —</option></select>
           </div>
           <div class="field">
             <label>Medida</label>
@@ -388,20 +217,11 @@
         </div>
       </div>
 
-      <!-- CAMPOS ESPECÍFICOS POR PROCESO -->
-
-      <!-- CONIFICADO -->
       <div class="seccion campos-proceso" id="campos-Conificado">
         <div class="seccion-title">Conificado</div>
         <div class="row">
-          <div class="field">
-            <label>Lainas</label>
-            <input type="text" id="lainas" placeholder="">
-          </div>
-          <div class="field">
-            <label>Mordaza</label>
-            <input type="text" id="mordaza" placeholder="">
-          </div>
+          <div class="field"><label>Lainas</label><input type="text" id="lainas"></div>
+          <div class="field"><label>Mordaza</label><input type="text" id="mordaza"></div>
         </div>
         <div class="field">
           <label>Tipo de Punta</label>
@@ -413,34 +233,18 @@
           </select>
         </div>
         <div class="row">
-          <div class="field">
-            <label>Diámetro</label>
-            <input type="number" id="diametroCon" step="0.01" placeholder="mm">
-          </div>
-          <div class="field">
-            <label>Largo Punta</label>
-            <input type="number" id="largoPunta" step="0.01" placeholder="mm">
-          </div>
+          <div class="field"><label>Diámetro</label><input type="number" id="diametroCon" step="0.01" placeholder="mm"></div>
+          <div class="field"><label>Largo Punta</label><input type="number" id="largoPunta" step="0.01" placeholder="mm"></div>
         </div>
       </div>
 
-      <!-- TREFILADO -->
       <div class="seccion campos-proceso" id="campos-Trefilado">
         <div class="seccion-title">Trefilado</div>
         <div class="row">
-          <div class="field">
-            <label>Guía</label>
-            <input type="text" id="guia" placeholder="">
-          </div>
-          <div class="field">
-            <label>Matriz</label>
-            <input type="text" id="matriz" placeholder="">
-          </div>
+          <div class="field"><label>Guía</label><input type="text" id="guia"></div>
+          <div class="field"><label>Matriz</label><input type="text" id="matriz"></div>
         </div>
-        <div class="field">
-          <label>Trefilado</label>
-          <input type="text" id="trefilado" placeholder="">
-        </div>
+        <div class="field"><label>Trefilado</label><input type="text" id="trefilado"></div>
         <div class="field">
           <label>Característica</label>
           <select id="selectCaracteristica">
@@ -449,10 +253,7 @@
             <option>Copla</option><option>Ceramizada</option>
           </select>
         </div>
-        <div class="field">
-          <label>Largo</label>
-          <div class="radio-group" id="largoTrefiGroup"></div>
-        </div>
+        <div class="field"><label>Largo</label><div class="radio-group" id="largoTrefiGroup"></div></div>
         <div class="field">
           <label>Parte</label>
           <select id="selectParte">
@@ -462,139 +263,85 @@
         </div>
       </div>
 
-      <!-- ENDEREZADO -->
       <div class="seccion campos-proceso" id="campos-Enderezado">
         <div class="seccion-title">Enderezado</div>
-        <div class="field">
-          <label>Largo</label>
-          <div class="radio-group" id="largoEndGroup"></div>
-        </div>
+        <div class="field"><label>Largo</label><div class="radio-group" id="largoEndGroup"></div></div>
         <div class="field">
           <div class="toggle-wrap">
             <div class="toggle-label">Cámara: <span id="labelCamara">Sin Cámara</span></div>
             <label class="toggle-switch">
-              <input type="checkbox" id="toggleCamara" onchange="
-                document.getElementById('labelCamara').textContent = this.checked ? 'Con Cámara' : 'Sin Cámara'">
+              <input type="checkbox" id="toggleCamara" onchange="document.getElementById('labelCamara').textContent = this.checked ? 'Con Cámara' : 'Sin Cámara'">
               <span class="toggle-slider"></span>
             </label>
           </div>
         </div>
-        <div class="field">
-          <label>N° Lanzas OF</label>
-          <input type="number" id="nLanzasOF" placeholder="">
-        </div>
+        <div class="field"><label>N° Lanzas OF</label><input type="number" id="nLanzasOF"></div>
         <div class="field">
           <label>Derechas</label>
           <div class="slider-wrap">
-            <input type="range" id="derechas" min="0" max="100" value="50"
-              oninput="document.getElementById('valDerechas').textContent = this.value">
+            <input type="range" id="derechas" min="0" max="100" value="50" oninput="document.getElementById('valDerechas').textContent = this.value">
             <div class="slider-val" id="valDerechas">50</div>
           </div>
         </div>
         <div class="row">
-          <div class="field">
-            <label>Lanzas Fisuradas</label>
-            <input type="number" id="lanzasFisuradas" placeholder="">
-          </div>
-          <div class="field">
-            <label>Porcentaje EC</label>
-            <input type="number" id="porcentajeEC" step="0.1" placeholder="%">
-          </div>
+          <div class="field"><label>Lanzas Fisuradas</label><input type="number" id="lanzasFisuradas"></div>
+          <div class="field"><label>Porcentaje EC</label><input type="number" id="porcentajeEC" step="0.1" placeholder="%"></div>
         </div>
       </div>
 
-      <!-- CORTE CON SIERRA -->
       <div class="seccion campos-proceso" id="campos-Corte con Sierra">
         <div class="seccion-title">Corte con Sierra</div>
         <div class="row">
           <div class="field">
             <label>Lado 1</label>
-            <select id="selectLado1">
-              <option value="">— Sierra —</option>
-              <option>SIE1</option><option>SIE2</option><option>SIE3</option><option>SIE4</option>
-            </select>
+            <select id="selectLado1"><option value="">— Sierra —</option><option>SIE1</option><option>SIE2</option><option>SIE3</option><option>SIE4</option></select>
           </div>
           <div class="field">
             <label>Lado 2</label>
-            <select id="selectLado2">
-              <option value="">— Sierra —</option>
-              <option>SIE1</option><option>SIE2</option><option>SIE3</option><option>SIE4</option>
-            </select>
+            <select id="selectLado2"><option value="">— Sierra —</option><option>SIE1</option><option>SIE2</option><option>SIE3</option><option>SIE4</option></select>
           </div>
         </div>
         <div class="row">
-          <div class="field">
-            <label>Cant. Cortada</label>
-            <input type="number" id="cantCortada" placeholder="">
-          </div>
-          <div class="field">
-            <label>Largo</label>
-            <input type="number" id="largoCorteSierra" step="0.01" placeholder="mm">
-          </div>
+          <div class="field"><label>Cant. Cortada</label><input type="number" id="cantCortada"></div>
+          <div class="field"><label>Largo</label><input type="number" id="largoCorteSierra" step="0.01" placeholder="mm"></div>
         </div>
         <div class="row">
-          <div class="field">
-            <label>N° Cámara</label>
-            <input type="text" id="nCamara" placeholder="">
-          </div>
-          <div class="field">
-            <label>Largo Cámara</label>
-            <input type="number" id="largoCamara" step="0.01" placeholder="mm">
-          </div>
+          <div class="field"><label>N° Cámara</label><input type="text" id="nCamara"></div>
+          <div class="field"><label>Largo Cámara</label><input type="number" id="largoCamara" step="0.01" placeholder="mm"></div>
         </div>
       </div>
 
-      <!-- RANURADO Y BISELADO -->
       <div class="seccion campos-proceso" id="campos-Ranurado y Biselado">
         <div class="seccion-title">Ranurado y Biselado</div>
-        <div class="field">
-          <label>Bisel</label>
-          <input type="text" id="bisel" placeholder="">
-        </div>
-        <div class="field">
-          <label>Largo</label>
-          <input type="number" id="largoRanura" step="0.01" placeholder="mm">
-        </div>
+        <div class="field"><label>Bisel</label><input type="text" id="bisel"></div>
+        <div class="field"><label>Largo</label><input type="number" id="largoRanura" step="0.01" placeholder="mm"></div>
         <div class="row">
-          <div class="field">
-            <label>Ranura Prof.</label>
-            <input type="number" id="ranuraProf" step="0.01" value="0">
-          </div>
-          <div class="field">
-            <label>Ranura Diámetro</label>
-            <input type="number" id="ranuraDiam" step="0.01" placeholder="mm">
-          </div>
+          <div class="field"><label>Ranura Prof.</label><input type="number" id="ranuraProf" step="0.01" value="0"></div>
+          <div class="field"><label>Ranura Diámetro</label><input type="number" id="ranuraDiam" step="0.01" placeholder="mm"></div>
         </div>
         <div class="field">
           <div class="toggle-wrap">
             <div class="toggle-label">Pasa no Pasa: <span id="labelPasaNoPasa">Pasa</span></div>
             <label class="toggle-switch">
-              <input type="checkbox" id="togglePasaNoPasa" onchange="
-                document.getElementById('labelPasaNoPasa').textContent = this.checked ? 'No Pasa' : 'Pasa'">
+              <input type="checkbox" id="togglePasaNoPasa" onchange="document.getElementById('labelPasaNoPasa').textContent = this.checked ? 'No Pasa' : 'Pasa'">
               <span class="toggle-slider"></span>
             </label>
           </div>
         </div>
       </div>
 
-      <!-- POSTURA FCT -->
       <div class="seccion campos-proceso" id="campos-Postura FCT">
         <div class="seccion-title">Postura FCT</div>
-        <div class="field">
-          <label>Profundidad</label>
-          <input type="number" id="profundidad" step="0.01" placeholder="mm">
-        </div>
+        <div class="field"><label>Profundidad</label><input type="number" id="profundidad" step="0.01" placeholder="mm"></div>
         <div class="field">
           <label>Apriete</label>
           <div class="slider-wrap">
-            <input type="range" id="apriete" min="0" max="100" value="50"
-              oninput="document.getElementById('valApriete').textContent = this.value">
+            <input type="range" id="apriete" min="0" max="100" value="50" oninput="document.getElementById('valApriete').textContent = this.value">
             <div class="slider-val" id="valApriete">50</div>
           </div>
         </div>
       </div>
 
-      <!-- CIERRE -->
       <div class="seccion">
         <div class="seccion-title">Cierre</div>
         <div class="field">
@@ -606,96 +353,67 @@
           <div class="file-input-wrap" onclick="document.getElementById('adjuntos').click()">
             <i data-lucide="paperclip" style="color:#e8a020; width:24px; height:24px;"></i>
             <p id="adjuntosLabel">Toca para adjuntar foto o archivo</p>
-            <input type="file" id="adjuntos" multiple accept="image/*,.pdf,.xlsx,.docx"
-              onchange="mostrarAdjuntos()">
+            <input type="file" id="adjuntos" multiple accept="image/*,.pdf,.xlsx,.docx" onchange="mostrarAdjuntos()">
           </div>
         </div>
         <button class="btn-guardar" onclick="guardarRegistro()">Guardar Registro</button>
       </div>
 
-    </div><!-- fin camposComunes -->
-
+    </div>
   </div>
 </div>
 
 <script>
-  // Fecha
   const ahora = new Date();
   document.getElementById("fechaTexto").textContent =
     ahora.toLocaleDateString("es-CL") + " " +
     ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"});
 
-  // Datos
   const OPERADORES = [
     "Hector Leiva","Manuel Mella","Sergio Morales","Victor Castillo",
     "Cristian Medina","Mauricio Rivas","Richard Alvarez","Juan Manuel Díaz",
     "Ruben Porflidt","Francisco Fuente","Leonardo Cespedes"
   ];
-
   const LANZAS = ["OB","SOB","UOB","TR","SL","HL"];
   const LARGOS_STD = ["3.000","4.000","5.000","5.700","6.000"];
-  const SIERRAS = ["SIE1","SIE2","SIE3","SIE4"];
 
   const MAQUINAS = {
-    "Conificado":         { label: "Conificadora", items: ["CON1","CON2","CON3","CON4","CON5"] },
-    "Trefilado":          { label: "Trefiladora",  items: ["TRE1","TRE2","TRE3"] },
-    "Enderezado":         { label: "Enderezadora", items: ["END1","END2"] },
-    "Corte con Sierra":   { label: "Sierra",       items: [] }, // manejo especial
-    "Ranurado y Biselado":{ label: "Torno Automático", items: ["TOA1","TOA2"] },
-    "Postura FCT":        { label: "Roscadora",    items: ["ROS1","ROS2","ROS3","ROS4","ROS5","ROS6","ROS7","ROS8"] },
+    "Conificado":          { label: "Conificadora",      items: ["CON1","CON2","CON3","CON4","CON5"] },
+    "Trefilado":           { label: "Trefiladora",        items: ["TRE1","TRE2","TRE3"] },
+    "Enderezado":          { label: "Enderezadora",       items: ["END1","END2"] },
+    "Corte con Sierra":    { label: "Sierra",             items: [] },
+    "Ranurado y Biselado": { label: "Torno Automático",   items: ["TOA1","TOA2"] },
+    "Postura FCT":         { label: "Roscadora",          items: ["ROS1","ROS2","ROS3","ROS4","ROS5","ROS6","ROS7","ROS8"] },
   };
 
   const PROCESOS = [
     "Conificado","Trefilado","Enderezado","Corte con Sierra",
     "Ranurado y Biselado","Postura FCT","Ceramizado",
     "Carga de Inserto","Roscado/Hilo","Postura de Copla",
-    "Armado FCT","Carga de Alambre","Prensado",
-    "Corte por Tronzadora","Grateado"
+    "Armado FCT","Carga de Alambre","Prensado","Corte por Tronzadora","Grateado"
   ];
 
-  // Procesos sin máquina ni lanza
   const SIN_MAQUINA = ["Ceramizado","Carga de Inserto","Roscado/Hilo","Postura de Copla",
     "Armado FCT","Carga de Alambre","Prensado","Corte por Tronzadora","Grateado"];
 
   let procesoActual = null;
 
-  // Poblar dropdown procesos
   const selProceso = document.getElementById("selectProceso");
-  PROCESOS.forEach(p => {
-    const opt = document.createElement("option");
-    opt.value = p; opt.textContent = p;
-    selProceso.appendChild(opt);
-  });
+  PROCESOS.forEach(p => { const o = document.createElement("option"); o.value = o.textContent = p; selProceso.appendChild(o); });
 
-  // Poblar dropdown operadores
   const selOperador = document.getElementById("selectOperador");
-  OPERADORES.forEach(o => {
-    const opt = document.createElement("option");
-    opt.value = o; opt.textContent = o;
-    selOperador.appendChild(opt);
-  });
+  OPERADORES.forEach(o => { const opt = document.createElement("option"); opt.value = opt.textContent = o; selOperador.appendChild(opt); });
 
-  // Poblar dropdown lanzas
   const selLanza = document.getElementById("selectLanza");
-  LANZAS.forEach(l => {
-    const opt = document.createElement("option");
-    opt.value = l; opt.textContent = l;
-    selLanza.appendChild(opt);
-  });
+  LANZAS.forEach(l => { const o = document.createElement("option"); o.value = o.textContent = l; selLanza.appendChild(o); });
 
   function seleccionarProceso(proceso) {
     procesoActual = proceso || null;
-    if (!proceso) {
-      document.getElementById("camposComunes").classList.add("hidden");
-      return;
-    }
-
+    if (!proceso) { document.getElementById("camposComunes").classList.add("hidden"); return; }
     document.getElementById("camposComunes").classList.remove("hidden");
     document.querySelectorAll(".campos-proceso").forEach(el => el.classList.remove("visible"));
-
     const secMaq = document.getElementById("seccionMaquina");
     const secLanza = document.getElementById("seccionLanza");
-
     if (SIN_MAQUINA.includes(proceso)) {
       secMaq.classList.add("hidden");
       secLanza.classList.remove("hidden");
@@ -708,15 +426,10 @@
         document.getElementById("labelMaquina").textContent = maqData?.label || "Máquina";
         const sel = document.getElementById("selectMaquina");
         sel.innerHTML = `<option value="">— Selecciona —</option>`;
-        (maqData?.items || []).forEach(item => {
-          const opt = document.createElement("option");
-          opt.value = opt.textContent = item;
-          sel.appendChild(opt);
-        });
+        (maqData?.items || []).forEach(item => { const o = document.createElement("option"); o.value = o.textContent = item; sel.appendChild(o); });
       }
       secLanza.classList.remove("hidden");
     }
-
     const camposEl = document.getElementById("campos-" + proceso);
     if (camposEl) camposEl.classList.add("visible");
   }
@@ -736,22 +449,6 @@
     });
   }
 
-  function renderRadioGrid(containerId, items, name) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = "";
-    items.forEach(item => {
-      const label = document.createElement("label");
-      label.innerHTML = `<input type="radio" name="${name}" value="${item}"> ${item}`;
-      label.querySelector("input").addEventListener("change", () => {
-        container.querySelectorAll("label").forEach(l => l.classList.remove("selected"));
-        label.classList.add("selected");
-      });
-      container.appendChild(label);
-    });
-  }
-
-  // Render estáticos para campos específicos
   renderRadioGroup("largoTrefiGroup", LARGOS_STD, "largoTrefi");
   renderRadioGroup("largoEndGroup", LARGOS_STD, "largoEnd");
 
@@ -761,7 +458,6 @@
       files.length > 0 ? `${files.length} archivo(s) seleccionado(s)` : "Toca para adjuntar foto o archivo";
   }
 
-  // MSAL
   const msalConfig = {
     auth: {
       clientId: "8deccadf-6d77-494e-8a48-b672aa25f518",
@@ -776,7 +472,7 @@
   function recopilarDatos() {
     const ahora = new Date();
     return {
-      "__metadata": { "type": "SP.Data.TrefiApp_x005f_ProcesosV2ListItem" },
+      "__metadata": { "type": "SP.Data.TrefiApp_x005f_Calidad_x005f_PP_x005f_V2ListItem" },
       "Title": ahora.toISOString().slice(0,10),
       "fecha": ahora.toISOString().slice(0,10),
       "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
@@ -795,7 +491,7 @@
     );
     const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
     await fetch(
-      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_ProcesosV2')/items",
+      "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_Calidad_PP_V2')/items",
       {
         method: "POST",
         headers: {
@@ -821,9 +517,7 @@
     const accounts = msalInstance.getAllAccounts();
 
     if (accounts.length === 0) {
-      await msalInstance.loginRedirect({
-        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"]
-      });
+      await msalInstance.loginRedirect({ scopes: ["https://trefimet.sharepoint.com/AllSites.Write"] });
       return;
     }
 
