@@ -451,6 +451,7 @@
       : document.getElementById("selectLargo").value;
     return {
       "__metadata": { "type": "SP.Data.TrefiApp_x005f_Calidad_x005f_PP_x005f_V1ListItem" },
+
       "Title": ahora.toISOString().slice(0,10),
       "hora": ahora.toLocaleTimeString("es-CL", {hour:"2-digit", minute:"2-digit"}),
       "folio_calidad": document.getElementById("folioCalidad").value,
@@ -495,7 +496,7 @@
       { method: "POST", headers: { "Accept": "application/json;odata=verbose", "Authorization": `Bearer ${token}` }}
     );
     const digest = (await contextResp.json()).d.GetContextWebInformation.FormDigestValue;
-    await fetch(
+    const resp = await fetch(
       "https://trefimet.sharepoint.com/sites/mejora/_api/web/lists/getbytitle('TrefiApp_Calidad_PT_V2')/items",
       {
         method: "POST",
@@ -508,6 +509,8 @@
         body: JSON.stringify(datos)
       }
     );
+    const text = await resp.text();
+    if (!resp.ok) throw new Error('SP ' + resp.status + ': ' + text);
   }
 
   async function guardarRegistro() {
