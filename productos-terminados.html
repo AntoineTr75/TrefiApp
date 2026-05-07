@@ -531,15 +531,19 @@
 
     await msalInstance.initialize();
     const accounts = msalInstance.getAllAccounts();
-    if (accounts.length === 0) {
-      await msalInstance.loginRedirect({ scopes: ["https://trefimet.sharepoint.com/AllSites.Write"] });
-      return;
-    }
+
     try {
-      const tokenResp = await msalInstance.acquireTokenSilent({
-        scopes: ["https://trefimet.sharepoint.com/AllSites.Write"],
-        account: accounts[0]
-      });
+      let tokenResp;
+      if (accounts.length === 0) {
+        tokenResp = await msalInstance.loginPopup({
+          scopes: ["https://trefimet.sharepoint.com/AllSites.Write"]
+        });
+      } else {
+        tokenResp = await msalInstance.acquireTokenSilent({
+          scopes: ["https://trefimet.sharepoint.com/AllSites.Write"],
+          account: accounts[0]
+        });
+      }
       await enviarASharePoint(tokenResp.accessToken, datos);
       sessionStorage.removeItem("pendingDataPT");
       alert("Registro guardado y enviado a SharePoint.");
